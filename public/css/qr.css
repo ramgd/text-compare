@@ -1,0 +1,251 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+}
+
+.qr-wrapper {
+    padding: 30px 15px;
+}
+
+.qr-container {
+    max-width: 950px;
+    margin: auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: #222;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group.half {
+    flex: 1;
+    min-width: 240px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #222;
+}
+
+textarea,
+select,
+input[type="file"],
+input[type="color"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cfcfcf;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #fff;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+input[type="color"] {
+    height: 50px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.help-text {
+    display: block;
+    margin-top: 8px;
+    color: #666;
+    font-size: 13px;
+}
+
+.btn-group {
+    text-align: center;
+    margin-top: 25px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.generate-btn,
+.clear-btn,
+.download-btn,
+.png-btn,
+.copy-btn {
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.generate-btn {
+    background: #007bff;
+}
+
+.generate-btn:hover {
+    background: #0056b3;
+}
+
+.clear-btn {
+    background: #6c757d;
+}
+
+.clear-btn:hover {
+    background: #545b62;
+}
+
+.download-btn {
+    background: #28a745;
+}
+
+.download-btn:hover {
+    background: #1f8a38;
+}
+
+.png-btn {
+    background: #fd7e14;
+}
+
+.png-btn:hover {
+    background: #dc6803;
+}
+
+.copy-btn {
+    background: #20c997;
+}
+
+.copy-btn:hover {
+    background: #18a77d;
+}
+
+.result-box {
+    margin-top: 35px;
+    text-align: center;
+    padding: 25px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fafafa;
+    transition: all 0.4s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.qr-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-height: 280px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px dashed #d9d9d9;
+    padding: 20px;
+    overflow: auto;
+}
+
+.qr-preview canvas,
+.qr-preview img,
+.qr-preview svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.preview-text {
+    margin-top: 25px;
+    text-align: left;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    word-break: break-word;
+}
+
+.copy-message {
+    display: none;
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+.copy-message.success {
+    color: #198754;
+    background: #e9f9ef;
+}
+
+.copy-message.error-msg {
+    color: #b42318;
+    background: #fef3f2;
+}
+
+.error {
+    color: #d92d20;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.qr-highlight {
+    animation: qrGlow 2s ease;
+}
+
+@keyframes qrGlow {
+    0% {
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+    }
+    25% {
+        box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.18);
+        transform: scale(1.01);
+    }
+    50% {
+        box-shadow: 0 0 18px 6px rgba(40, 167, 69, 0.22);
+        transform: scale(1.015);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .qr-container {
+        padding: 20px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .generate-btn,
+    .clear-btn,
+    .download-btn,
+    .png-btn,
+    .copy-btn {
+        width: 100%;
+    }
+}

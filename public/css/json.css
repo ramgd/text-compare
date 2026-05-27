@@ -1,0 +1,78 @@
+.json-container{
+display:flex;
+gap:20px;
+padding:20px;
+flex-wrap:wrap;
+}
+
+/* EDITOR BOX */
+.editor-box{
+flex:1;
+min-width:300px;
+background:#fff;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+display:flex;
+flex-direction:column;
+}
+
+.editor-header{
+padding:10px;
+background:linear-gradient(90deg,#ff7a18,#ffb347);
+color:#fff;
+font-weight:bold;
+border-radius:10px 10px 0 0;
+}
+
+.editor{
+height:400px;
+resize:both;
+overflow:auto;
+}
+
+/* BUTTONS */
+.json-actions{
+display:flex;
+flex-direction:column;
+justify-content:center;
+gap:10px;
+}
+
+.json-actions button{
+background:#ff7a18;
+color:#fff;
+border:none;
+padding:10px;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.json-actions button:hover{
+background:#ff5e00;
+}
+
+/* TOAST */
+#toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#333;
+color:#fff;
+padding:10px 20px;
+border-radius:20px;
+display:none;
+z-index:999;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.json-container{
+flex-direction:column;
+}
+.json-actions{
+flex-direction:row;
+flex-wrap:wrap;
+}
+}
