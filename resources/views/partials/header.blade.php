@@ -19,5 +19,6 @@
     <button data-url="/code-beautifier" onclick="location.href='/code-beautifier'">Code Beautifier</button>
     <button data-url="/api_tester" onclick="location.href='/api_tester'">API Tester</button>
     <button data-url="/qr-generator" onclick="location.href='/qr-generator'">QR Code Generator</button>
-
+    <button data-url="/image-to-text" onclick="location.href='/image-to-text'">Image To Text </button>
+    <button data-url="/text-to-image" onclick="location.href='/text-to-image'"> Text To Image </button>
 </div>

@@ -15,15 +15,32 @@ window.addEventListener("DOMContentLoaded", function() {
 
 /* BEAUTIFY */
 function beautifyCode() {
-    let code = inputCode.getValue();
-    // let lang = document.getElementById("language").value;
-    let lang = detectLanguage(code); // 👈 AUTO DETECT
+//     let code = inputCode.getValue();
+//     // let lang = document.getElementById("language").value;
+//     let lang = detectLanguage(code); // 👈 AUTO DETECT
 
-document.getElementById("language").value = lang; // 👈 UI sync
-    if (code.trim() === "") {
+// document.getElementById("language").value = lang; // 👈 UI sync
+//     if (code.trim() === "") {
+//         showToast("⚠️ Enter code first", "error");
+//         return;
+//     }
+let code = inputCode.getValue();
+
+    const languageEl = document.getElementById("language");
+
+    let selected = languageEl ? languageEl.value : "";
+
+    let lang = selected || detectLanguage(code);
+
+    if(languageEl){
+        languageEl.value = lang;
+    }
+
+    if(code.trim() === ""){
         showToast("⚠️ Enter code first", "error");
         return;
     }
+
     try {
        let formatted = "";
 
@@ -120,7 +137,7 @@ return "javascript";
 return "javascript";
 
 }
-let selected = document.getElementById("language").value;
+// let selected = document.getElementById("language").value;
 
-/* USER SELECT > AUTO DETECT */
-let lang = selected || detectLanguage(code);
+// /* USER SELECT > AUTO DETECT */
+// let lang = selected || detectLanguage(code);

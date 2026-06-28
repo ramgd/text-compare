@@ -1,0 +1,381 @@
+/* Markdown Editor Styles */
+.markdown-wrapper {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
+}
+
+.markdown-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.markdown-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.markdown-header h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.markdown-header .subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Toolbar */
+.editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+.toolbar-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.toolbar-group button {
+    padding: 6px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    min-width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toolbar-group button:hover {
+    background: #ff7a18;
+    color: white;
+    border-color: #ff7a18;
+    transform: translateY(-1px);
+}
+
+.toolbar-group .btn-clear-editor {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.toolbar-group .btn-clear-editor:hover {
+    background: #c82333;
+    border-color: #c82333;
+}
+
+.toolbar-group .btn-copy-markdown {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.toolbar-group .btn-copy-markdown:hover {
+    background: #218838;
+    border-color: #218838;
+}
+
+.toolbar-group .btn-download-markdown {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.toolbar-group .btn-download-markdown:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+}
+
+.toolbar-group .btn-export-html {
+    background: #6f42c1;
+    color: white;
+    border-color: #6f42c1;
+}
+
+.toolbar-group .btn-export-html:hover {
+    background: #5a32a3;
+    border-color: #5a32a3;
+}
+
+/* View Toggle */
+.editor-view-toggle {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.view-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.view-btn:hover {
+    background: rgba(255, 122, 24, 0.1);
+    color: #ff7a18;
+}
+
+.view-btn.active {
+    background: #ff7a18;
+    color: white;
+}
+
+/* Editor Container */
+.editor-container {
+    display: flex;
+    gap: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 500px;
+}
+
+.editor-input,
+.editor-preview {
+    flex: 1;
+    padding: 20px;
+    min-height: 500px;
+}
+
+.editor-input {
+    background: #fafafa;
+    border-right: 1px solid #e0e0e0;
+}
+
+.editor-preview {
+    background: #fff;
+}
+
+.editor-input label,
+.editor-preview label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.editor-input textarea {
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    resize: none;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    background: #fff;
+    transition: border-color 0.3s;
+    line-height: 1.6;
+}
+
+.editor-input textarea:focus {
+    border-color: #ff7a18;
+    outline: none;
+}
+
+.editor-preview .markdown-body {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Word Count */
+.word-count {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #888;
+    padding: 5px 0;
+}
+
+.word-count span {
+    font-weight: 500;
+}
+
+/* Sample Templates */
+.sample-templates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.sample-templates label {
+    font-weight: 500;
+    color: #555;
+    font-size: 14px;
+}
+
+.sample-templates button {
+    padding: 6px 16px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s;
+}
+
+.sample-templates button:hover {
+    border-color: #ff7a18;
+    background: #fff3e6;
+    color: #ff7a18;
+    transform: translateY(-2px);
+}
+
+/* Toast */
+.toast {
+    visibility: hidden;
+    min-width: 280px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 14px 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #28a745;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+
+.toast.info {
+    background: #17a2b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .editor-container {
+        flex-direction: column;
+        min-height: 400px;
+    }
+
+    .editor-input,
+    .editor-preview {
+        min-height: 300px;
+    }
+
+    .editor-input {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .editor-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .toolbar-group {
+        justify-content: center;
+    }
+
+    .editor-view-toggle {
+        justify-content: center;
+    }
+
+    .view-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .sample-templates {
+        justify-content: center;
+    }
+
+    .markdown-wrapper {
+        padding: 10px;
+    }
+
+    .markdown-container {
+        padding: 15px;
+    }
+
+    .markdown-header h1 {
+        font-size: 24px;
+    }
+
+    .toolbar-group button {
+        padding: 4px 8px;
+        font-size: 12px;
+        min-width: 28px;
+    }
+
+    .word-count {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .toolbar-group {
+        gap: 3px;
+    }
+
+    .toolbar-group button {
+        padding: 3px 6px;
+        font-size: 11px;
+        min-width: 24px;
+    }
+
+    .view-btn {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+    .sample-templates button {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+}

@@ -54,3 +54,78 @@ Route::get('/api_tester', function () {
 // QR CODE GENERATOR ROUTE
 Route::get('/qr-generator', [QrCodeController::class, 'index'])->name('qr.generator');
 Route::post('/qr-generator/create', [QrCodeController::class, 'generate'])->name('qr.generator.create');
+
+Route::get('/image-to-text', function () {
+    return view('image_to_text');
+});
+
+Route::view('/text-to-image', 'text_to_image');
+Route::get('/base64', function () {
+    return view('base64');
+})->name('base64');
+
+Route::get('/age-calculator', function () {
+    return view('age-calculator');
+})->name('age-calculator');
+
+Route::get('/hash-generator', function () {
+    return view('hash-generator');
+})->name('hash-generator');
+
+Route::get('/color-palette', function () {
+    return view('color-palette');
+})->name('color-palette');
+
+Route::get('/unit-converter', function () {
+    return view('unit-converter');
+})->name('unit-converter');
+
+Route::get('/markdown-editor', function () {
+    return view('markdown-editor');
+})->name('markdown-editor');
+
+Route::get('/ip-tools', function () {
+    return view('ip-tools');
+})->name('ip-tools');
+
+Route::get('/date-calculator', function () {
+    return view('date-calculator');
+})->name('date-calculator');
+
+Route::get('/email-validator', function () {
+    return view('email-validator');
+})->name('email-validator');
+
+Route::get('/file-converter', function () {
+    return view('file-converter');
+})->name('file-converter');
+
+Route::get('/url-encoder', function () {
+    return view('url-encoder');
+})->name('url-encoder');
+
+
+Route::get('/mind-map', function () {
+    return view('mind-map');
+})->name('mind-map');
+
+Route::get('/pdf-toolkit', function () {
+    return view('pdf-toolkit');
+})->name('pdf-toolkit');
+
+Route::get('/memory-game', function () {
+    return view('memory-game');
+})->name('memory-game');
+
+Route::get('/tractor-game', function () {
+    return view('tractor-game');
+})->name('tractor-game');
+
+Route::get('/zipzap-game', function () {
+    return view('zipzap-game');
+})->name('zipzap-game');
+
+Route::get('/highway-racer', function () {
+    return view('highway-racer');
+})->name('highway-racer');
+

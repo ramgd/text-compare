@@ -1,0 +1,530 @@
+/* IP Tools Styles */
+.ip-wrapper {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
+}
+
+.ip-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.ip-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ip-header h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.ip-header .subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Tabs */
+.ip-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 10px 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    border-radius: 6px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.tab-btn.active {
+    background: #ff7a18;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Grid Layout */
+.ip-grid {
+    display: grid;
+    gap: 30px;
+}
+
+/* My IP */
+.myip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ip-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+    background: linear-gradient(135deg, #ff7a18, #ffb347);
+    border-radius: 12px;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.ip-icon {
+    font-size: 48px;
+}
+
+.ip-details {
+    flex: 1;
+}
+
+.ip-label {
+    display: block;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.ip-value {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.btn-copy-ip,
+.btn-refresh-ip {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-copy-ip {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.btn-copy-ip:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+.btn-refresh-ip {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.btn-refresh-ip:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+.ip-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.detail-card {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.detail-label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Input Groups */
+.input-section label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.lookup-input-group,
+.validate-input-group,
+.whois-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.lookup-input-group input,
+.validate-input-group input,
+.whois-input-group input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.lookup-input-group input:focus,
+.validate-input-group input:focus,
+.whois-input-group input:focus {
+    border-color: #ff7a18;
+    outline: none;
+}
+
+.btn-lookup,
+.btn-validate,
+.btn-whois {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-lookup {
+    background: #007bff;
+    color: white;
+}
+
+.btn-lookup:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-validate {
+    background: #28a745;
+    color: white;
+}
+
+.btn-validate:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-whois {
+    background: #6f42c1;
+    color: white;
+}
+
+.btn-whois:hover {
+    background: #5a32a3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);
+}
+
+/* Presets */
+.lookup-presets,
+.validate-presets,
+.whois-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.lookup-presets button,
+.validate-presets button,
+.whois-presets button {
+    padding: 6px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.lookup-presets button:hover,
+.validate-presets button:hover,
+.whois-presets button:hover {
+    border-color: #ff7a18;
+    background: #fff3e6;
+    color: #ff7a18;
+}
+
+/* Results */
+.output-section {
+    margin-top: 20px;
+}
+
+#lookupResults,
+#validateResults,
+#whoisResults {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.lookup-result-item,
+.validate-result-item,
+.whois-result-item {
+    display: flex;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    align-items: center;
+    gap: 10px;
+}
+
+.lookup-label,
+.validate-label,
+.whois-label {
+    min-width: 120px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+.lookup-value,
+.validate-value,
+.whois-value {
+    color: #333;
+    word-break: break-all;
+    font-size: 14px;
+}
+
+.validate-value.valid {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.validate-value.invalid {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.btn-copy-raw {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-copy-raw:hover {
+    background: #5a6268;
+}
+
+/* Toast */
+.toast {
+    visibility: hidden;
+    min-width: 280px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 14px 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #28a745;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+
+.toast.info {
+    background: #17a2b8;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .ip-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .ip-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .ip-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lookup-input-group,
+    .validate-input-group,
+    .whois-input-group {
+        flex-direction: column;
+    }
+    
+    .lookup-result-item,
+    .validate-result-item,
+    .whois-result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .lookup-label,
+    .validate-label,
+    .whois-label {
+        min-width: auto;
+    }
+    
+    .ip-tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tab-btn {
+        justify-content: center;
+    }
+    
+    .ip-wrapper {
+        padding: 10px;
+    }
+    
+    .ip-container {
+        padding: 15px;
+    }
+    
+    .ip-header h1 {
+        font-size: 24px;
+    }
+    
+    .ip-value {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 400px) {
+    .lookup-presets,
+    .validate-presets,
+    .whois-presets {
+        flex-direction: column;
+    }
+    
+    .lookup-presets button,
+    .validate-presets button,
+    .whois-presets button {
+        width: 100%;
+    }
+}
+
+/* Loading States */
+.loading {
+    color: #999;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Result items with better styling */
+.lookup-value, .validate-value, .whois-value {
+    font-weight: 500;
+}
+
+.lookup-value.loading, .validate-value.loading, .whois-value.loading {
+    color: #999;
+}
+
+.lookup-result-item:hover, .validate-result-item:hover, .whois-result-item:hover {
+    background: #f0f0f0;
+}
+/* Loading States */
+.loading {
+    color: #999;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Result items with better styling */
+.lookup-value, .validate-value, .whois-value {
+    font-weight: 500;
+}
+
+.lookup-result-item:hover, .validate-result-item:hover, .whois-result-item:hover {
+    background: #f0f0f0;
+}
+
+/* Error state */
+.error-value {
+    color: #dc3545 !important;
+}
+
+/* Success state */
+.success-value {
+    color: #28a745 !important;
+}

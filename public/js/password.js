@@ -45,15 +45,32 @@ showToast("✅ Password Copied!","success");
 }
 
 // length display
+// document.addEventListener("DOMContentLoaded", function(){
+
+// let slider = document.getElementById("length");
+// let output = document.getElementById("lenVal");
+
+// output.innerText = slider.value;
+
+// slider.oninput = function(){
+// output.innerText = this.value;
+// };
+
+// });
+
 document.addEventListener("DOMContentLoaded", function(){
 
-let slider = document.getElementById("length");
-let output = document.getElementById("lenVal");
+    let slider = document.getElementById("length");
+    let output = document.getElementById("lenVal");
 
-output.innerText = slider.value;
+    if(!slider || !output){
+        return;
+    }
 
-slider.oninput = function(){
-output.innerText = this.value;
-};
+    output.innerText = slider.value;
+
+    slider.oninput = function(){
+        output.innerText = this.value;
+    };
 
 });

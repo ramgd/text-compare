@@ -746,3 +746,36 @@ padding:5px;
 border-radius:5px;
 border:none;
 }
+
+/* Fix for footer and content overlap */
+.main-content {
+    min-height: 100vh;
+    padding-bottom: 80px;
+    display: block;
+    clear: both;
+}
+
+.main-footer {
+    position: relative;
+    z-index: 10;
+    background: #fff;
+    border-top: 2px solid #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    clear: both;
+    width: 100%;
+    margin-top: 0;
+}
+
+/* Ensure body has proper spacing */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body > .main-content {
+    flex: 1;
+}
