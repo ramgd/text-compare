@@ -188,7 +188,33 @@
             <h3>Highway Racer</h3>
             <p>Dodge traffic and survive! 🏎️</p>
         </div>
+        <!-- Speed Test -->
+        <!-- <div class="tool-card" onclick="go('/speed-test')">
+            <i class="fas fa-wifi"></i>
+            <h3>Speed Test</h3>
+            <p>Check your internet speed in real-time 🌐</p>
+        </div> -->
 
+        <!-- Speed Checker -->
+        <!-- <div class="tool-card" onclick="go('/speed-checker')">
+            <i class="fas fa-wifi"></i>
+            <h3>Speed Checker</h3>
+            <p>Professional internet speed test 🌐</p>
+        </div> -->
+
+        <!-- Bike Racer -->
+        <div class="tool-card" onclick="go('/bike-racer')">
+            <i class="fas fa-bicycle"></i>
+            <h3>Bike Racer</h3>
+            <p>Race against the clock on your bike! 🚴</p>
+        </div>
+
+        <!-- Arrow Maze -->
+<div class="tool-card" onclick="go('/arrow-maze')">
+    <i class="fas fa-arrow-right"></i>
+    <h3>Arrow Maze</h3>
+    <p>Follow the arrows to solve the puzzle 🎯</p>
+</div>
 
     </div>
 

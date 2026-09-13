@@ -129,3 +129,22 @@ Route::get('/highway-racer', function () {
     return view('highway-racer');
 })->name('highway-racer');
 
+// Route::get('/speed-test', function () {
+//     return view('speed-test');
+// })->name('speed-test');
+// Route::get('/speed-checker', function () {
+//     return view('speed-checker');
+// })->name('speed-checker');
+
+// Route for Bubble Shooter Game
+Route::get('/bubble-shooter', function () {
+    return view('bubble-shooter');
+})->name('bubble.shooter');
+
+Route::get('/bike-racer', function () {
+    return view('bike-racer');
+})->name('bike.racer');
+
+Route::get('/arrow-maze', function () {
+    return view('arrow-maze-game');
+})->name('arrow-maze');

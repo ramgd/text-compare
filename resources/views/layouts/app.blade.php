@@ -31,11 +31,13 @@
     <link rel="stylesheet" href="{{ asset('css/email-validator.css') }}">
     <link rel="stylesheet" href="{{ asset('css/file-converter.css') }}">
     <link rel="stylesheet" href="{{ asset('css/url-encoder.css') }}">
-<link rel="stylesheet" href="{{ asset('css/mind-map.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('css/mind-map.css') }}"> -->
 <link rel="stylesheet" href="{{ asset('css/pdf-toolkit.css') }}">
 <link rel="stylesheet" href="{{ asset('css/tractor-game.css') }}">
-<link rel="stylesheet" href="{{ asset('css/memory-game.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('css/memory-game.css') }}"> -->
 <link rel="stylesheet" href="{{ asset('css/zipzap-game.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('css/speed-test.css') }}">
+<link rel="stylesheet" href="{{ asset('css/speed-checker.css') }}"> -->
 
 
 
@@ -55,7 +57,8 @@
     <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/2.0.0/pdf-lib.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script> -->
 
 </head>
 
@@ -103,11 +106,13 @@
     <script src="{{ asset('js/email-validator.js') }}"></script>
     <script src="{{ asset('js/file-converter.js') }}"></script>
     <script src="{{ asset('js/url-encoder.js') }}"></script>
-    <script src="{{ asset('js/mind-map.js') }}"></script>
+    <!-- <script src="{{ asset('js/mind-map.js') }}"></script> -->
 <script src="{{ asset('js/pdf-toolkit.js') }}"></script>
 <script src="{{ asset('js/tractor-game.js') }}"></script>
-<script src="{{ asset('js/memory-game.js') }}"></script>
+<!-- <script src="{{ asset('js/memory-game.js') }}"></script> -->
 <script src="{{ asset('js/zipzap-game.js') }}"></script>
+<!-- <script src="{{ asset('js/speed-test.js') }}"></script> -->
+<!-- <script src="{{ asset('js/speed-checker.js') }}"></script> -->
 
 
 </body>
