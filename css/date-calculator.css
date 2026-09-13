@@ -1,0 +1,411 @@
+/* Date Calculator Styles */
+.date-wrapper {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
+}
+
+.date-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.date-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.date-header h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.date-header .subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Tabs */
+.date-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 10px 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    border-radius: 6px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.tab-btn.active {
+    background: #ff7a18;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Grid Layout */
+.date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.input-section, .output-section {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.output-section {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+}
+
+.output-section h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* Input Groups */
+.date-input-group {
+    margin-bottom: 15px;
+}
+
+.date-input-group label {
+    display: block;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.date-input-group input,
+.date-input-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    background: #fff;
+}
+
+.date-input-group input:focus,
+.date-input-group select:focus {
+    border-color: #ff7a18;
+    outline: none;
+}
+
+/* Add/Subtract Controls */
+.add-subtract-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-row label {
+    font-weight: 500;
+    color: #555;
+    font-size: 13px;
+    min-width: 60px;
+}
+
+.control-row input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 70px;
+}
+
+.control-row input:focus {
+    border-color: #ff7a18;
+    outline: none;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+    flex: 1;
+}
+
+.btn-calculate {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-calculate:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-clear {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-clear:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-add-mode {
+    background: #ffc107;
+    color: #333;
+}
+
+.btn-add-mode:hover {
+    background: #e0a800;
+}
+
+.btn-subtract-mode {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-subtract-mode:hover {
+    background: #138496;
+}
+
+.btn-add-mode.active {
+    background: #ff7a18;
+    color: white;
+}
+
+.btn-subtract-mode.active {
+    background: #ff7a18;
+    color: white;
+}
+
+/* Quick Presets */
+.quick-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 15px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.quick-presets label {
+    font-weight: 500;
+    color: #555;
+    font-size: 13px;
+}
+
+.quick-presets button {
+    padding: 5px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.quick-presets button:hover {
+    border-color: #ff7a18;
+    background: #fff3e6;
+    color: #ff7a18;
+}
+
+/* Results */
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.result-item.highlight-result {
+    background: #fff3e6;
+    border-color: #ff7a18;
+}
+
+.result-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.result-value {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Toast */
+.toast {
+    visibility: hidden;
+    min-width: 280px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 14px 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #28a745;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+
+.toast.info {
+    background: #17a2b8;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .date-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .add-subtract-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .date-wrapper {
+        padding: 10px;
+    }
+    
+    .date-container {
+        padding: 15px;
+    }
+    
+    .date-header h1 {
+        font-size: 24px;
+    }
+    
+    .date-tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tab-btn {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .quick-presets {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .quick-presets button {
+        width: 100%;
+    }
+    
+    .result-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button-group button {
+        width: 100%;
+    }
+    
+    .control-row {
+        flex-wrap: wrap;
+    }
+    
+    .control-row input {
+        width: 100%;
+    }
+}

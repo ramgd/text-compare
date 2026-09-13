@@ -1,0 +1,568 @@
+/* ============================================
+   TRACTOR FARMING GAME - COMPLETE STYLES
+   ============================================ */
+
+.tractor-game-wrapper {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px);
+}
+
+.tractor-game-wrapper .game-container {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    color: #fff;
+}
+
+.tractor-game-wrapper .game-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.tractor-game-wrapper .game-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tractor-game-wrapper .game-header .subtitle {
+    color: #aaa;
+    font-size: 16px;
+    margin: 5px 0 0 0;
+}
+
+/* Controls Info */
+.tractor-game-wrapper .controls-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #aaa;
+    flex-wrap: wrap;
+}
+
+.tractor-game-wrapper .controls-info strong {
+    color: #4CAF50;
+}
+
+/* Stats */
+.tractor-game-wrapper .game-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tractor-game-wrapper .stat-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.tractor-game-wrapper .stat-box:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+}
+
+.tractor-game-wrapper .stat-label {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 3px;
+}
+
+.tractor-game-wrapper .stat-value {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+/* Controls */
+.tractor-game-wrapper .game-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tractor-game-wrapper .game-controls button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tractor-game-wrapper .btn-new-game {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    color: #fff;
+}
+
+.tractor-game-wrapper .btn-new-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+}
+
+.tractor-game-wrapper .btn-reset-game {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: #fff;
+}
+
+.tractor-game-wrapper .btn-reset-game:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(108, 92, 231, 0.4);
+}
+
+.tractor-game-wrapper .difficulty-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.tractor-game-wrapper .difficulty-selector select {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.tractor-game-wrapper .difficulty-selector select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+/* Game Board */
+.tractor-game-wrapper .game-board-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.tractor-game-wrapper .game-board {
+    display: grid;
+    gap: 2px;
+    max-width: 600px;
+    width: 100%;
+    aspect-ratio: 1;
+    background: #2d2d44;
+    padding: 4px;
+    border-radius: 12px;
+    border: 2px solid #3d3d5c;
+}
+
+.tractor-game-wrapper .cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    cursor: default;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 30px;
+}
+
+.tractor-game-wrapper .cell.field {
+    background: #8D6E63;
+}
+
+.tractor-game-wrapper .cell.field.plowed {
+    background: #4CAF50;
+    animation: plowAnim 0.3s ease;
+}
+
+.tractor-game-wrapper .cell.field.plowed::after {
+    content: '🌱';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.tractor-game-wrapper .cell.tractor {
+    background: #f44336;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
+    animation: tractorMove 0.2s ease;
+}
+
+.tractor-game-wrapper .cell.tractor::after {
+    content: '🚜';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+}
+
+.tractor-game-wrapper .cell.tractor.plowed {
+    background: #f44336;
+}
+
+.tractor-game-wrapper .cell.tractor.plowed::after {
+    content: '🚜';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+}
+
+@keyframes plowAnim {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tractorMove {
+    0% { transform: scale(0.9); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Tractor Info */
+.tractor-game-wrapper .tractor-info {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    font-size: 14px;
+    color: #ccc;
+    flex-wrap: wrap;
+}
+
+.tractor-game-wrapper .tractor-info strong {
+    color: #4CAF50;
+}
+
+/* Victory Modal */
+.tractor-game-wrapper .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.tractor-game-wrapper .modal-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: modalIn 0.5s ease;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.tractor-game-wrapper .modal-icon {
+    font-size: 80px;
+    margin-bottom: 10px;
+}
+
+.tractor-game-wrapper .modal-content h2 {
+    font-size: 32px;
+    margin: 10px 0;
+    color: #4CAF50;
+}
+
+.tractor-game-wrapper .modal-content p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.tractor-game-wrapper .modal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.tractor-game-wrapper .modal-stat {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.tractor-game-wrapper .modal-stat span:first-child {
+    display: block;
+    font-size: 12px;
+    color: #888;
+}
+
+.tractor-game-wrapper .modal-stat span:last-child {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+.tractor-game-wrapper .btn-play-again {
+    padding: 12px 35px;
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-right: 10px;
+}
+
+.tractor-game-wrapper .btn-play-again:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+}
+
+.tractor-game-wrapper .btn-close-modal {
+    padding: 12px 35px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tractor-game-wrapper .btn-close-modal:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Score History */
+.tractor-game-wrapper .score-history {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.tractor-game-wrapper .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tractor-game-wrapper .history-header h3 {
+    margin: 0;
+    color: #4CAF50;
+    font-size: 18px;
+}
+
+.tractor-game-wrapper .btn-clear-history {
+    padding: 6px 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s;
+}
+
+.tractor-game-wrapper .btn-clear-history:hover {
+    background: rgba(255,107,107,0.1);
+    border-color: #ff6b6b;
+}
+
+.tractor-game-wrapper .history-list {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.tractor-game-wrapper .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.tractor-game-wrapper .history-item .history-date {
+    color: #888;
+    font-size: 11px;
+}
+
+.tractor-game-wrapper .history-item .history-score {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+/* Scrollbar */
+.tractor-game-wrapper .history-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tractor-game-wrapper .history-list::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+}
+
+.tractor-game-wrapper .history-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+}
+
+/* Toast - Scoped */
+.tractor-game-wrapper .toast {
+    visibility: hidden;
+    min-width: 250px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 20px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.tractor-game-wrapper .toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tractor-game-wrapper .toast.success {
+    background: #28a745;
+}
+.tractor-game-wrapper .toast.error {
+    background: #dc3545;
+}
+.tractor-game-wrapper .toast.info {
+    background: #17a2b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tractor-game-wrapper .game-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tractor-game-wrapper .game-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tractor-game-wrapper .game-controls button {
+        width: 100%;
+    }
+
+    .tractor-game-wrapper .difficulty-selector {
+        justify-content: center;
+    }
+
+    .tractor-game-wrapper .game-header h1 {
+        font-size: 28px;
+    }
+
+    .tractor-game-wrapper .history-item {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .tractor-game-wrapper .cell.field.plowed::after {
+        font-size: 14px;
+    }
+
+    .tractor-game-wrapper .cell.tractor::after {
+        font-size: 18px;
+    }
+
+    .tractor-game-wrapper .tractor-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .tractor-game-wrapper .controls-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .tractor-game-wrapper {
+        padding: 10px;
+    }
+
+    .tractor-game-wrapper .game-container {
+        padding: 15px;
+    }
+
+    .tractor-game-wrapper .game-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .tractor-game-wrapper .stat-value {
+        font-size: 18px;
+    }
+
+    .tractor-game-wrapper .cell {
+        min-height: 20px;
+    }
+
+    .tractor-game-wrapper .cell.field.plowed::after {
+        font-size: 10px;
+    }
+
+    .tractor-game-wrapper .cell.tractor::after {
+        font-size: 14px;
+    }
+}

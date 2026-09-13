@@ -1,0 +1,150 @@
+.api-container {
+    padding: 20px;
+}
+
+/* TOP BAR */
+.api-top {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.api-top select,
+.api-top input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.api-top input {
+    flex: 1;
+}
+
+.api-top button {
+    background: #ff7a18;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.api-top button:hover {
+    background: #ff5e00;
+}
+
+/* BODY */
+.api-body {
+    display: flex;
+    gap: 20px;
+}
+
+.editor-box {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.editor-header {
+    background: linear-gradient(90deg, #ff7a18, #ffb347);
+    color: #fff;
+    padding: 10px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+    border: none;
+    padding: 10px;
+    font-family: monospace;
+    resize: vertical;
+}
+
+pre {
+    height: 300px;
+    overflow: auto;
+    padding: 10px;
+    margin: 0;
+    background: #111;
+    color: #0f0;
+}
+
+/* STATUS */
+.api-status {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px) {
+    .api-body {
+        flex-direction: column;
+    }
+}
+
+/* TABS */
+.api-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.tab input {
+    width: 45%;
+    margin: 5px;
+    padding: 6px;
+}
+
+/* JSON VIEW */
+.json-viewer {
+    height: 300px;
+    overflow: auto;
+    background: #111;
+    color: #0f0;
+    padding: 10px;
+    font-family: monospace;
+    white-space: pre;
+}
+.result-box {
+    margin-top: 35px;
+    text-align: center;
+    padding: 25px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: #fafafa;
+    transition: all 0.4s ease;
+}
+
+.qr-highlight {
+    animation: qrGlow 2s ease;
+}
+
+@keyframes qrGlow {
+    0% {
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+    }
+    25% {
+        box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.18);
+        transform: scale(1.01);
+    }
+    50% {
+        box-shadow: 0 0 18px 6px rgba(40, 167, 69, 0.22);
+        transform: scale(1.015);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        transform: scale(1);
+    }
+}
