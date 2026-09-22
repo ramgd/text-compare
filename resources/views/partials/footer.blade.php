@@ -1,3 +1,3 @@
-<div class="footer">
+<footer class="footer">
 © 2026 Global Tools Platform @RJ
-</div>
+</footer>

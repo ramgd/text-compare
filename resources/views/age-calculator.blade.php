@@ -139,3 +139,11 @@
 
 <div id="toast" class="toast"></div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/age-calculator.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/age-calculator.js') }}"></script>
+@endpush

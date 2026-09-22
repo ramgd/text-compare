@@ -161,11 +161,11 @@
 <div id="scToast" class="sc-toast"></div>
 @endsection
 
-<!-- @push('styles')
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/speed-checker.css') }}">
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ asset('js/speed-checker.js') }}"></script>
-@endpush -->
+@endpush

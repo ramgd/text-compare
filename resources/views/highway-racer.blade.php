@@ -717,7 +717,10 @@
     const game = {
         state: 'menu',
         level: 'easy',
-        config: null,
+        // Defaults to the 'easy' config to match `level` above. renderLoop()
+        // calls draw() while state === 'menu', i.e. before startGame() assigns
+        // this, and draw() dereferences config.colors on every frame.
+        config: LEVELS.easy,
         score: 0,
         lives: 3,
         maxLives: 3,

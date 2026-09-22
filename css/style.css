@@ -12,10 +12,27 @@ padding:0;
 .header{
 background:linear-gradient(90deg,#ff7a18,#ffb347);
 color:white;
-padding:15px;
+padding:12px 14px;
 text-align:center;
-font-size:26px;
+font-size:clamp(15px,3.9vw,26px);
 font-weight:bold;
+
+/* layout: [menu] [title] [dark toggle] */
+display:flex;
+align-items:center;
+gap:8px;
+position:sticky;
+top:0;
+z-index:1100;
+padding-left:max(12px,env(safe-area-inset-left));
+padding-right:max(12px,env(safe-area-inset-right));
+}
+
+.header-title{
+flex:1;
+min-width:0;
+line-height:1.2;
+overflow-wrap:anywhere;
 }
 
 /* ================= TOOL BAR ================= */
@@ -45,9 +62,12 @@ background:#ff5e00;
 /* ================= CONTAINER ================= */
 
 .container{
-width:92%;
-margin:auto;
-margin-top:20px;
+width:100%;
+max-width:1600px;
+margin:20px auto 0;
+padding-inline:clamp(12px,4vw,40px);
+flex:1 0 auto;            /* pushes the footer to the bottom (body is a flex column) */
+min-width:0;
 }
 
 /* ================= TEXTAREAS ================= */
@@ -179,9 +199,6 @@ background:#ff5e00;
 /* ================= FOOTER ================= */
 
 .footer{
-position: fixed;
-bottom: 0;
-width: 100%;
 margin-top:40px;
 background:#333;
 color:white;
@@ -312,12 +329,14 @@ padding:2px 5px;
 }
 
 .number{
-width:40px;
-margin-right:10px;
+width:34px;
+flex:0 0 34px;
+padding-right:6px;
 }
 
 .code{
-white-space:pre;
+white-space:pre-wrap;
+overflow-wrap:anywhere;
 }
 
 /* JSON RESPONSIVE FIX */

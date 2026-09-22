@@ -40,7 +40,7 @@
 /* Stats */
 .memory-game-wrapper .game-stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -272,7 +272,7 @@
 
 .memory-game-wrapper .modal-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     margin: 20px 0;
 }
@@ -447,7 +447,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .memory-game-wrapper .game-stats {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .memory-game-wrapper .game-controls {
@@ -473,7 +473,7 @@
     }
 
     .memory-game-wrapper .modal-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .memory-game-wrapper .game-header h1 {
@@ -496,7 +496,7 @@
     }
 
     .memory-game-wrapper .game-stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
     }
 

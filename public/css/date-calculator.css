@@ -81,7 +81,7 @@
 /* Grid Layout */
 .date-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 30px;
 }
 
@@ -135,7 +135,7 @@
 /* Add/Subtract Controls */
 .add-subtract-controls {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 10px;
     margin-bottom: 15px;
 }
@@ -348,12 +348,12 @@
 /* Responsive */
 @media (max-width: 992px) {
     .date-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 20px;
     }
     
     .add-subtract-controls {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
     
     .date-wrapper {

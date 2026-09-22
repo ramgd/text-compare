@@ -66,3 +66,10 @@
 <div id="toast" class="toast"></div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/markdown-editor.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/markdown-editor.js') }}"></script>
+@endpush

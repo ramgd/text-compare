@@ -27,3 +27,7 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/sql.js') }}"></script>
+@endpush

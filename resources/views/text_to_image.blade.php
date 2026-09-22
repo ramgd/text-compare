@@ -119,3 +119,11 @@
 
 <div id="toast" class="toast"></div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/text-to-image.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/text-to-image.js') }}"></script>
+@endpush

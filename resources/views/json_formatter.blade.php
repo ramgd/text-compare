@@ -28,3 +28,12 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/json.css') }}">
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+<script src="{{ asset('js/json.js') }}"></script>
+@endpush

@@ -106,7 +106,7 @@
 </div>
 
 <!-- Toast -->
-<!-- <div id="toast" class="toast"></div>
+<div id="toast" class="toast"></div>
 @endsection
 
 @push('styles')
@@ -115,4 +115,4 @@
 
 @push('scripts')
 <script src="{{ asset('js/tractor-game.js') }}"></script>
-@endpush -->
+@endpush
