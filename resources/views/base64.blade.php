@@ -108,3 +108,10 @@
 <div id="toast" class="toast"></div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/base64.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/base64.js') }}"></script>
+@endpush

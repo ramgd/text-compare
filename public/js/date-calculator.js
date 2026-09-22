@@ -284,21 +284,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ==================== TOAST SYSTEM ====================
-function showToast(message, type) {
-    if (type === undefined) type = 'info';
-    var toast = document.getElementById('toast');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'toast';
-        toast.className = 'toast';
-        document.body.appendChild(toast);
-    }
-    
-    toast.textContent = message;
-    toast.className = 'toast show ' + type;
-    
-    clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(function() {
-        toast.className = 'toast';
-    }, 3000);
-}
+/* showToast() lives in js/common.js - every tool had a byte-for-byte
+   equivalent copy of it. common.js is loaded first on every page. */

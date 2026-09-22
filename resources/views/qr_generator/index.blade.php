@@ -82,3 +82,12 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/qr.css') }}">
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+<script src="{{ asset('js/qr.js') }}"></script>
+@endpush

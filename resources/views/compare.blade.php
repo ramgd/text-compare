@@ -42,3 +42,8 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
+<script src="{{ asset('js/compare.js') }}"></script>
+@endpush

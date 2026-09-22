@@ -73,3 +73,10 @@
 <div id="toast" class="toast"></div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/unit-converter.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/unit-converter.js') }}"></script>
+@endpush

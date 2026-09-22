@@ -136,10 +136,10 @@ Route::get('/highway-racer', function () {
 //     return view('speed-checker');
 // })->name('speed-checker');
 
-// Route for Bubble Shooter Game
-Route::get('/bubble-shooter', function () {
-    return view('bubble-shooter');
-})->name('bubble.shooter');
+// NOTE: the Bubble Shooter route was removed - it pointed at
+// resources/views/bubble-shooter.blade.php, which has never existed in this
+// repo, so every request to it raised "View [bubble-shooter] not found" (500).
+// Nothing in the dashboard or the nav linked to it.
 
 Route::get('/bike-racer', function () {
     return view('bike-racer');

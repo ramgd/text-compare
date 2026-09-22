@@ -31,3 +31,11 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/password.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/password.js') }}"></script>
+@endpush

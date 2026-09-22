@@ -1,16 +1,42 @@
-window.showToast = function (message, type = "info") {
+/* Shared toast.
+   Two toast conventions exist in this project: most tool views render their
+   own <div id="toast" class="toast"> styled by that tool's stylesheet, while
+   layouts/app.blade.php always provides <div id="toaster" class="toaster">.
+   This used to be two separate window.showToast definitions in this file, the
+   second overwriting the first, so pages that only had #toaster (compare,
+   sql_minifier, json_formatter, code_beautifier, api_tester, password
+   generator, qr generator) showed no feedback at all.
+   Tool scripts that ship their own showToast still override this one. */
+window.showToast = function (message, type) {
 
-    let toast = document.getElementById("toaster");
+    if (type === undefined) type = "info";
 
-    if (!toast) return;
+    /* 1. the tool's own toast element, 2. the layout's global one,
+       3. create one - which is what every tool copy of this used to do. */
+    var toast = document.getElementById("toast");
+    var base = "toast";
 
-    toast.className = "toaster show " + type;
-    toast.innerText = message;
+    if (!toast) {
+        toast = document.getElementById("toaster");
+        base = "toaster";
+    }
 
-    setTimeout(() => {
-        toast.className = "toaster";
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "toast";
+        toast.className = "toast";
+        base = "toast";
+        document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+    toast.className = base + " show " + type;
+
+    clearTimeout(toast._toastTimer);
+    toast._toastTimer = setTimeout(function () {
+        toast.className = base;
     }, 3000);
-}
+};
 
 function go(url) {
     window.location.href = url;
@@ -150,14 +176,8 @@ window.addEventListener("DOMContentLoaded", function () {
 /* ===== common.js — Global Utilities ===== */
 
 // ── Toast Notification ──────────────────────────────────────
-window.showToast = function (msg, type = '') {
-    const t = document.getElementById('toast');
-    if (!t) return;
-    t.textContent = msg;
-    t.className = 'toast show ' + type;
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.className = 'toast', 3200);
-};
+// (consolidated into the single window.showToast at the top of this file,
+//  which handles both the #toast and #toaster conventions)
 
 // ── Theme Toggle ─────────────────────────────────────────────
 (function () {

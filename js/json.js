@@ -3,6 +3,10 @@ let inputEditor, outputEditor;
 // window.onload = function(){
 document.addEventListener("DOMContentLoaded", function(){
 
+/* Only initialise when this tool's markup is actually on the page.
+   ace.edit() throws "can't find div #inputEditor" otherwise. */
+if (!document.getElementById("inputEditor") || !document.getElementById("outputEditor")) return;
+
 // INIT ACE
 inputEditor = ace.edit("inputEditor");
 outputEditor = ace.edit("outputEditor");

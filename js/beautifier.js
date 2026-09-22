@@ -1,5 +1,9 @@
 let inputCode, outputCode;
 window.addEventListener("DOMContentLoaded", function() {
+    /* Only initialise when this tool's markup is actually on the page.
+       ace.edit() throws "can't find div #inputCode" otherwise. */
+    if (!document.getElementById("inputCode") || !document.getElementById("outputCode")) return;
+
     inputCode = ace.edit("inputCode");
     outputCode = ace.edit("outputCode");
     [inputCode, outputCode].forEach(editor => {

@@ -241,10 +241,10 @@
 <div id="toast" class="toast"></div>
 @endsection
 
-<!-- @push('styles')
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/hash-generator.css') }}">
 @endpush
 
 @push('scripts')
 <script src="{{ asset('js/hash-generator.js') }}"></script>
-@endpush -->
+@endpush

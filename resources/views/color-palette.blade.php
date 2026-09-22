@@ -90,3 +90,10 @@
 <div id="toast" class="toast"></div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/color-palette.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/color-palette.js') }}"></script>
+@endpush

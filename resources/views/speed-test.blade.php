@@ -138,10 +138,10 @@
 <div id="speedtestToast" class="speedtest-toast"></div>
 @endsection
 
-<!-- @push('styles')
+@push('styles')
 <link rel="stylesheet" href="{{ asset('css/speed-test.css') }}">
 @endpush
 
 @push('scripts')
 <script src="{{ asset('js/speed-test.js') }}"></script>
-@endpush -->
+@endpush

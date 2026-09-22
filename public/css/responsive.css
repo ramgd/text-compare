@@ -53,6 +53,16 @@ min-width:0;
 min-width:0;
 }
 
+/* .editor-box is a shared component (style.css) used by the JSON formatter,
+   the code beautifier and the API tester. Its responsive floor used to live in
+   json.css, which only worked because every stylesheet loaded on every page.
+   Now that CSS is per-page, it belongs here with the other global rules -
+   without it the two editors shrink to ~98px side by side on a phone instead
+   of wrapping onto their own rows. */
+.editor-box{
+min-width:min(300px,100%);
+}
+
 /* ---------- 2. HEADER / DARK TOGGLE ---------- */
 
 .header-btn{

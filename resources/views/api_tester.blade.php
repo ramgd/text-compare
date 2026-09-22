@@ -63,3 +63,11 @@
 </div>
 
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/api.css') }}">
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/api.js') }}"></script>
+@endpush
