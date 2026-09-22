@@ -1,0 +1,753 @@
+/* =========================================================================
+   responsive.css
+   Global responsive layer for the whole tool platform.
+
+   Loaded LAST in layouts/app.blade.php on purpose: several tool stylesheets
+   (api.css, json.css, ...) style bare element selectors such as `textarea`
+   and `pre`, so these corrections must win the cascade by source order.
+   ========================================================================= */
+
+/* Breakpoints used across the app:  <=600 phone | <=900 tablet | >900 desktop */
+
+/* ---------- 1. BOX MODEL + OVERFLOW SAFETY ---------- */
+
+*,
+*::before,
+*::after{
+box-sizing:border-box;
+}
+
+html{
+-webkit-text-size-adjust:100%;   /* stop iOS inflating text in landscape */
+}
+
+body{
+overflow-wrap:break-word;        /* long words wrap instead of widening the page */
+}
+
+/* Media never widens its container */
+img,svg,video,canvas,iframe{
+max-width:100%;
+}
+
+img,video{
+height:auto;
+}
+
+/* Flex/grid children default to min-width:auto, which is what lets a long
+   unbroken string push a whole row wider than the screen. */
+.boxes,
+.diff-container,
+.json-container,
+.sql-container,
+.beautifier-container,
+.line{
+min-width:0;
+}
+
+.boxes > *,
+.diff-container > *,
+.json-container > *,
+.sql-container > *,
+.beautifier-container > *{
+min-width:0;
+}
+
+/* ---------- 2. HEADER / DARK TOGGLE ---------- */
+
+.header-btn{
+background:rgba(255,255,255,0.18);
+border:none;
+margin:0;                        /* overrides the global button{margin:5px} */
+color:#fff;
+border-radius:10px;
+cursor:pointer;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:44px;
+min-height:44px;
+padding:0;
+font-size:20px;
+line-height:1;
+flex:0 0 auto;
+transition:background .2s,transform .2s;
+}
+
+.header-btn:hover{
+background:rgba(255,255,255,0.3);
+}
+
+.header-btn:focus-visible{
+outline:3px solid #fff;
+outline-offset:2px;
+}
+
+/* id carries legacy styling from above - reset it for the new button */
+#darkToggle{
+font-size:20px;
+margin-right:0;
+float:none;
+}
+
+#darkToggle:hover{
+transform:scale(1.08) rotate(8deg);
+}
+
+/* ---------- 3. NAVIGATION ---------- */
+
+/* Hamburger: hidden on desktop, shown at <=900px */
+.nav-toggle{
+display:none;
+}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after{
+display:block;
+width:20px;
+height:2px;
+background:#fff;
+border-radius:2px;
+content:"";
+transition:transform .25s ease,opacity .2s ease;
+}
+
+.nav-toggle-bars::before{ transform:translateY(-6px); }
+.nav-toggle-bars::after{ transform:translateY(4px); }
+
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars{ background:transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before{ transform:translateY(0) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after{ transform:translateY(-2px) rotate(-45deg); }
+
+.ultra-nav{
+position:sticky;
+top:0;
+max-width:100%;
+}
+
+/* Comfortable touch targets everywhere */
+.ultra-nav button,
+.tools button{
+min-height:40px;
+}
+
+.ultra-nav button:focus-visible,
+.tools button:focus-visible{
+outline:3px solid #ff7a18;
+outline-offset:2px;
+border-radius:6px;
+}
+
+/* ---------- 4. BUTTONS ---------- */
+
+button:focus-visible{
+outline:3px solid #ff7a18;
+outline-offset:2px;
+}
+
+.buttons{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+margin:20px 0;
+text-align:center;
+}
+
+.buttons button{
+margin:0;
+flex:0 1 auto;
+min-height:44px;
+}
+
+/* ---------- 5. COMPARE EDITORS ---------- */
+
+.boxes{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.boxes > textarea{
+flex:1 1 320px;
+width:100%;
+max-width:100%;
+}
+
+textarea{
+max-width:100%;
+font-size:16px;              /* <16px makes iOS zoom the viewport on focus */
+line-height:1.5;
+}
+
+/* ---------- 6. DIFF RESULT ---------- */
+
+.diff-box{
+max-width:100%;
+overflow:auto;
+-webkit-overflow-scrolling:touch;
+overscroll-behavior:contain;
+}
+
+.line{
+min-width:0;
+}
+
+.number{
+flex:0 0 45px;
+}
+
+.code{
+min-width:0;
+overflow-wrap:anywhere;
+}
+
+/* full-row highlight without spilling past the column */
+.add,
+.remove{
+width:auto;
+max-width:100%;
+min-width:100%;
+}
+
+/* Styles for the messages compare() injects (previously unstyled) */
+.empty-message{
+padding:18px 14px;
+text-align:center;
+color:#666;
+font-family:Arial,sans-serif;
+font-size:15px;
+line-height:1.5;
+}
+
+.empty-message.success{
+color:#1e7e34;
+font-weight:bold;
+}
+
+body.dark .empty-message{ color:#bbb; }
+body.dark .empty-message.success{ color:#7fdc9a; }
+
+/* ---------- 7. FOOTER ---------- */
+
+.footer{
+flex-shrink:0;
+padding:15px max(15px,env(safe-area-inset-left)) max(15px,env(safe-area-inset-bottom));
+}
+
+/* ---------- 8. TOASTER ---------- */
+
+.toaster{
+max-width:min(92vw,420px);
+min-width:0;
+width:max-content;
+box-sizing:border-box;
+}
+
+/* =========================================================================
+   TABLET  (<= 900px)
+   ========================================================================= */
+
+@media(max-width:900px){
+
+/* Header becomes [menu][title][theme] and stays reachable while scrolling */
+.nav-toggle{
+display:inline-flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:4px;
+}
+
+/* Collapsible menu panel */
+.ultra-nav,
+.tools{
+position:static;
+display:none;
+flex-direction:column;
+align-items:stretch;
+gap:0;
+padding:6px 0;
+max-height:min(70vh,520px);
+overflow-y:auto;
+overflow-x:hidden;
+-webkit-overflow-scrolling:touch;
+}
+
+.ultra-nav.open,
+.tools.open{
+display:flex;
+}
+
+.ultra-nav button,
+.tools button{
+width:100%;
+margin:0;
+padding:13px 18px;
+text-align:left;
+font-size:15px;
+min-height:46px;
+border-radius:0;
+border-left:4px solid transparent;
+}
+
+.ultra-nav button:hover{
+transform:none;
+background:rgba(255,122,24,0.08);
+}
+
+.ultra-nav button::after{ display:none; }
+
+.ultra-nav button.active,
+.tools button.active{
+border-left-color:#ff7a18;
+background:rgba(255,122,24,0.1);
+color:#ff7a18;
+}
+
+/* the sliding underline is meaningless in a vertical list */
+.nav-indicator{
+display:none;
+}
+
+} /* end <=900 */
+
+/* =========================================================================
+   COMPARE LAYOUT
+   Two columns wherever there is room for two usable editors (~350px each),
+   a single column below that. style.css stacks at <=900px; tablets in the
+   700-900 band are wide enough, so the two-column layout is restored there.
+   ========================================================================= */
+
+@media(min-width:701px){
+
+.boxes,
+.diff-container{
+flex-direction:row;
+}
+
+.diff-box{
+width:50%;
+}
+
+.nav-strip{
+width:55px;
+}
+
+.nav-strip button{
+display:block;
+margin:12px auto;
+width:38px;
+height:38px;
+}
+
+}
+
+/* Single column: phones and small tablets in portrait */
+@media(max-width:700px){
+
+.boxes{
+flex-direction:column;
+gap:14px;
+}
+
+.boxes > textarea{
+flex:1 1 auto;
+}
+
+.diff-container{
+flex-direction:column;
+gap:14px;
+}
+
+.diff-box{
+width:100%;
+height:min(50vh,320px);
+}
+
+/* nav-strip becomes a horizontal control bar between the two diff panes */
+.nav-strip{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+width:100%;
+}
+
+.nav-strip button{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+margin:0;
+width:44px;
+height:44px;
+flex:0 0 44px;
+}
+
+}
+
+/* =========================================================================
+   PHONE  (<= 600px)
+   ========================================================================= */
+
+@media(max-width:600px){
+
+.container{
+margin-top:14px;
+}
+
+.result{
+margin-top:24px;
+}
+
+textarea{
+height:200px;
+padding:12px;
+border-radius:8px;
+}
+
+.diff-box{
+height:min(46vh,280px);
+padding:8px;
+font-size:13px;
+}
+
+.number{
+flex:0 0 30px;
+width:30px;
+font-size:12px;
+}
+
+/* Full-width stacked actions - easy to hit with a thumb */
+.buttons{
+gap:8px;
+}
+
+.buttons button{
+flex:1 1 calc(50% - 4px);
+min-width:0;
+padding:12px 10px;
+font-size:15px;
+}
+
+.buttons button.compare{
+flex:1 1 100%;
+order:-1;                     /* primary action first on mobile */
+}
+
+.footer{
+font-size:13px;
+padding-top:14px;
+padding-bottom:max(14px,env(safe-area-inset-bottom));
+}
+
+.toaster{
+left:50%;
+bottom:20px;
+max-width:calc(100vw - 24px);
+font-size:14px;
+}
+
+} /* end <=600 */
+
+/* =========================================================================
+   SHORT / LANDSCAPE PHONES  (e.g. 667x375, 844x390)
+   Keep the editors usable when vertical space is scarce.
+   ========================================================================= */
+
+@media(max-height:500px) and (orientation:landscape){
+
+.header{
+position:static;          /* don't eat the little height we have */
+padding:8px 12px;
+font-size:16px;
+}
+
+textarea{
+height:150px;
+}
+
+.diff-box{
+height:220px;
+}
+
+}
+
+/* =========================================================================
+   ACCESSIBILITY
+   ========================================================================= */
+
+@media(prefers-reduced-motion:reduce){
+*,
+*::before,
+*::after{
+animation-duration:.01ms !important;
+animation-iteration-count:1 !important;
+transition-duration:.01ms !important;
+scroll-behavior:auto !important;
+}
+}
+
+/* =========================================================================
+   TOUCH TARGETS + FORM CONTROLS
+   Applied on small screens and on any coarse-pointer device.
+   Every toolbar in the app already uses flex-wrap, so growing the controls
+   makes them wrap onto more rows rather than overflow.
+   ========================================================================= */
+
+@media(max-width:900px),(pointer:coarse){
+
+button,
+select,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+.tab,
+[role="button"]{
+min-height:40px;
+}
+
+/* Standalone action buttons get the full comfortable target */
+.buttons button,
+.generate,
+.btn-quick,
+.ocr-buttons button,
+.json-actions button,
+.sql-actions button,
+.beautifier-actions button,
+.api-top button{
+min-height:44px;
+}
+
+/* Icon-only buttons stay square rather than becoming thin slivers */
+.toolbar-group button,
+.nav-strip button,
+.modal-close,
+.btn-icon{
+min-width:40px;
+}
+
+/* Checkboxes and radios are impossible to hit at 13px */
+input[type="checkbox"],
+input[type="radio"]{
+width:20px;
+height:20px;
+min-width:20px;
+min-height:20px;
+accent-color:#ff7a18;
+}
+
+/* ...and give their labels a real tap area */
+.options label,
+.checkbox-group label{
+display:flex;
+align-items:center;
+gap:8px;
+min-height:40px;
+cursor:pointer;
+}
+
+/* Kept in a separate rule: a browser without :has() support drops the whole
+   selector list, which would take the two classes above down with it. */
+label:has(> input[type="checkbox"]),
+label:has(> input[type="radio"]){
+display:flex;
+align-items:center;
+gap:8px;
+min-height:40px;
+cursor:pointer;
+}
+
+/* 16px is the threshold below which iOS Safari zooms the viewport on focus */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+select,
+textarea{
+font-size:16px;
+max-width:100%;
+}
+
+/* Range sliders need room and a thicker rail */
+input[type="range"]{
+width:100%;
+min-height:40px;
+accent-color:#ff7a18;
+}
+
+/* Selects must never collapse to an unreadable sliver */
+select{
+min-width:0;
+width:auto;
+max-width:100%;
+padding:8px 10px;
+}
+
+.editor-header select{
+min-width:120px;
+padding:8px 10px;
+}
+
+.editor-header{
+flex-wrap:wrap;
+gap:8px;
+}
+
+} /* end touch targets */
+
+/* =========================================================================
+   MODALS / DIALOGS
+   Nearly full width on phones, always scrollable when the content is tall
+   (short landscape screens in particular).
+   ========================================================================= */
+
+.modal-content,
+.modal-overlay .modal-content{
+max-height:calc(100vh - 32px);
+max-height:calc(100dvh - 32px);
+overflow-y:auto;
+overscroll-behavior:contain;
+}
+
+.modal,
+.modal-overlay{
+padding:16px;
+}
+
+.modal-close{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:44px;
+min-height:44px;
+line-height:1;
+}
+
+@media(max-width:600px){
+
+.modal-content,
+.modal-overlay .modal-content{
+width:100%;
+max-width:100%;
+padding:22px 18px;
+border-radius:14px;
+}
+
+.modal-close{
+top:4px;
+right:6px;
+}
+
+}
+
+/* =========================================================================
+   OVERFLOW CONTAINMENT
+   Where content genuinely cannot reflow (code output, wide tables), scroll
+   the container - never the page.
+   ========================================================================= */
+
+.table-wrap,
+.table-responsive{
+width:100%;
+max-width:100%;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+table{
+max-width:100%;
+}
+
+pre,
+code,
+.json-viewer,
+.output,
+.result-box{
+max-width:100%;
+}
+
+pre,
+.json-viewer{
+overflow:auto;
+-webkit-overflow-scrolling:touch;
+overscroll-behavior-x:contain;
+}
+
+/* Results that hold user input (URLs, hashes, base64) must wrap */
+.result-box,
+.output-box,
+#output,
+#outputText,
+.detail-row span:last-child{
+overflow-wrap:anywhere;
+min-width:0;
+}
+
+/* =========================================================================
+   PER-TOOL MOBILE CORRECTIONS
+   Narrow fixes for panes whose desktop sizing does not survive stacking.
+   ========================================================================= */
+
+/* Markdown editor: the panes use `height:calc(100% - 60px)`, which needs a
+   definite parent height. Once .editor-container stacks the panes only have
+   a min-height, so the percentage resolves to auto and the textarea collapses
+   to ~140px. Make the pane a flex column and let the field grow instead. */
+@media(max-width:768px){
+
+.editor-input{
+display:flex;
+flex-direction:column;
+}
+
+.editor-input label{
+flex:0 0 auto;
+}
+
+.editor-input textarea{
+height:auto;
+flex:1 1 auto;
+min-height:240px;
+}
+
+.editor-preview .markdown-body{
+height:auto;
+min-height:200px;
+max-height:60vh;
+}
+
+}
+
+/* Compare: keep the two editors a sensible height on tablets, where they sit
+   side by side but the viewport is shorter than a desktop. */
+@media(min-width:701px) and (max-width:1024px){
+
+.boxes > textarea{
+height:240px;
+}
+
+}
+
+/* Dashboard cards: 250px minimum tracks leave no gutter at 320px */
+@media(max-width:600px){
+
+.card-grid{
+grid-template-columns:1fr;
+gap:14px;
+}
+
+.tool-card{
+padding:22px 18px;
+}
+
+.dashboard{
+padding:12px 0;
+}
+
+}

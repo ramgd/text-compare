@@ -5,6 +5,7 @@
 /* TOP BAR */
 .api-top {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -17,7 +18,8 @@
 }
 
 .api-top input {
-    flex: 1;
+    flex: 1 1 180px;
+    min-width: 0;
 }
 
 .api-top button {
@@ -89,19 +91,22 @@ pre {
 /* TABS */
 .api-tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 20px;
 }
 
 .tab {
-    flex: 1;
+    flex: 1 1 260px;
+    min-width: 0;
     background: #fff;
     padding: 10px;
     border-radius: 10px;
 }
 
 .tab input {
-    width: 45%;
+    width: calc(50% - 10px);
+    min-width: 0;
     margin: 5px;
     padding: 6px;
 }

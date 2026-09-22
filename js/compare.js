@@ -1,7 +1,21 @@
+/* ============================================================================
+   Text Compare tool
+
+   Wrapped in an IIFE and exposed under `tc*` names on purpose. Every script in
+   js/ is loaded globally by layouts/app.blade.php, and this file used to leak
+   generic globals (clearText, escapeHtml, next, prev, first, last, changes,
+   current). Later files redefined several of them - base64.js#clearText and
+   hash-generator.js#clearCompare in particular - which silently killed this
+   tool's Clear button on every page load. Keeping the internals private means
+   load order can no longer break the compare tool.
+   ========================================================================= */
+(function () {
+"use strict";
+
 let changes = [];
 let current = -1;
 
-function compare(){
+function tcCompare(){
 
 let text1 = document.getElementById("text1").value;
 let text2 = document.getElementById("text2").value;
@@ -193,7 +207,7 @@ return text
 
 }
 
-function next(){
+function tcNext(){
 
 if(changes.length===0) return;
 
@@ -207,7 +221,7 @@ scrollToChange();
 
 }
 
-function prev(){
+function tcPrev(){
 
 if(changes.length===0) return;
 
@@ -221,7 +235,7 @@ scrollToChange();
 
 }
 
-function first(){
+function tcFirst(){
 
 if(changes.length===0) return;
 
@@ -231,7 +245,7 @@ scrollToChange();
 
 }
 
-function last(){
+function tcLast(){
 
 if(changes.length===0) return;
 
@@ -257,7 +271,7 @@ block:"center"
 
 }
 
-function switchText(){
+function tcSwitchText(){
 
 let t1=document.getElementById("text1");
 let t2=document.getElementById("text2");
@@ -269,10 +283,21 @@ t2.value=temp;
 
 }
 
-function clearText(){
+function tcClearAll(){
 
 document.getElementById("text1").value="";
 document.getElementById("text2").value="";
 document.getElementById("result").style.display="none";
 
 }
+
+/* Public entry points used by resources/views/compare.blade.php */
+window.tcCompare    = tcCompare;
+window.tcSwitchText = tcSwitchText;
+window.tcClearAll   = tcClearAll;
+window.tcFirst      = tcFirst;
+window.tcPrev       = tcPrev;
+window.tcNext       = tcNext;
+window.tcLast       = tcLast;
+
+})();

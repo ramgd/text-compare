@@ -58,7 +58,7 @@
 /* Stats */
 .tractor-game-wrapper .game-stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -314,7 +314,7 @@
 
 .tractor-game-wrapper .modal-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     margin: 20px 0;
 }
@@ -489,7 +489,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .tractor-game-wrapper .game-stats {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .tractor-game-wrapper .game-controls {
@@ -546,7 +546,7 @@
     }
 
     .tractor-game-wrapper .game-stats {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
     }
 

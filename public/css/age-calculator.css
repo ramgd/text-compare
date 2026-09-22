@@ -32,7 +32,7 @@
 /* Grid Layout */
 .age-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 30px;
 }
 
@@ -190,7 +190,7 @@
 /* Age Cards */
 .age-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 15px;
     margin-bottom: 20px;
 }
@@ -244,7 +244,7 @@
 /* Age Details */
 .age-details {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 10px;
     background: #f8f9fa;
     padding: 20px;
@@ -286,7 +286,7 @@
 
 .stats-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 10px;
 }
 
@@ -358,7 +358,7 @@
 /* Responsive */
 @media (max-width: 992px) {
     .age-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 20px;
     }
     
@@ -371,7 +371,7 @@
     }
     
     .age-cards {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -381,15 +381,15 @@
     }
     
     .age-cards {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     
     .age-details {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
     
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
     
     .quick-buttons {

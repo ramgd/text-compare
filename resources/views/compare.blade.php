@@ -4,38 +4,38 @@
 
 <div class="boxes">
 
-<textarea id="text1"></textarea>
+<textarea id="text1" aria-label="Original text" placeholder="Original text…" spellcheck="false"></textarea>
 
-<textarea id="text2"></textarea>
+<textarea id="text2" aria-label="Modified text" placeholder="Modified text…" spellcheck="false"></textarea>
 
 </div>
 
 <div class="buttons">
 
-<button class="switch" onclick="switchText()">Switch</button>
+<button type="button" class="switch" onclick="tcSwitchText()">Switch</button>
 
-<button class="compare" onclick="compare()">Compare</button>
-    
-<button class="clear" onclick="clearText()">Clear</button>
+<button type="button" class="compare" onclick="tcCompare()">Compare</button>
+
+<button type="button" class="clear" onclick="tcClearAll()">Clear</button>
 
 </div>
 
-<div id="result" class="result" style="display:none">
+<div id="result" class="result" style="display:none" role="region" aria-label="Comparison result" aria-live="polite">
 
 <div class="diff-container">
 
-<div id="left" class="diff-box"></div>
+<div id="left" class="diff-box" tabindex="0" role="group" aria-label="Original text differences"></div>
 
-<div class="nav-strip">
+<div class="nav-strip" role="group" aria-label="Jump between differences">
 
-<button onclick="first()">⏮</button>
-<button onclick="prev()">⬆</button>
-<button onclick="next()">⬇</button>
-<button onclick="last()">⏭</button>
+<button type="button" onclick="tcFirst()" aria-label="First difference" title="First difference">⏮</button>
+<button type="button" onclick="tcPrev()" aria-label="Previous difference" title="Previous difference">⬆</button>
+<button type="button" onclick="tcNext()" aria-label="Next difference" title="Next difference">⬇</button>
+<button type="button" onclick="tcLast()" aria-label="Last difference" title="Last difference">⏭</button>
 
 </div>
 
-<div id="right" class="diff-box"></div>
+<div id="right" class="diff-box" tabindex="0" role="group" aria-label="Modified text differences"></div>
 
 </div>
 

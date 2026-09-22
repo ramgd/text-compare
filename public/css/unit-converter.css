@@ -67,7 +67,7 @@
 /* Converter Grid */
 .converter-grid {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 20px;
     align-items: end;
     margin-bottom: 20px;
@@ -344,7 +344,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .converter-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 15px;
     }
     

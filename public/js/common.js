@@ -29,8 +29,10 @@ window.addEventListener("DOMContentLoaded", function () {
     let path = window.location.pathname || "/";
 
     let nav = document.getElementById("toolsNav");
-    let buttons = document.querySelectorAll("#toolsNav button");
+    let buttons = document.querySelectorAll("#toolsNav button[data-url]");
     let indicator = document.getElementById("navIndicator");
+
+    if (!nav || !indicator) return;
 
     let activeBtn = null;
 
@@ -68,12 +70,27 @@ window.addEventListener("DOMContentLoaded", function () {
     /* MOVE INDICATOR */
     function moveIndicator(element) {
 
+        /* The indicator is hidden on the mobile menu - skip the maths there
+           so it can't be left with a stale width/offset on resize. */
+        if (getComputedStyle(indicator).display === "none") return;
+
         let rect = element.getBoundingClientRect();
         let parentRect = element.parentElement.getBoundingClientRect();
+
+        if (!rect.width) return;
 
         indicator.style.width = rect.width + "px";
         indicator.style.left = (rect.left - parentRect.left) + "px";
     }
+
+    /* Reposition after a resize crosses the mobile/desktop boundary */
+    let resizeTimer;
+    window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            if (activeBtn) moveIndicator(activeBtn);
+        }, 150);
+    });
 
     /* SCROLL SHADOW 🔥 */
     window.addEventListener("scroll", function () {
@@ -195,3 +212,70 @@ window.formatBytes = function (bytes, dec = 1) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
+
+// ── Mobile Navigation Menu ───────────────────────────────────
+// The tools nav collapses behind a hamburger at <=900px (see style.css).
+// Desktop is untouched: the button is display:none and the nav stays open.
+(function () {
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const toggle = document.getElementById('navToggle');
+        const nav = document.getElementById('toolsNav');
+
+        if (!toggle || !nav) return;
+
+        const isCollapsible = () =>
+            getComputedStyle(toggle).display !== 'none';
+
+        function setOpen(open) {
+            nav.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute(
+                'aria-label',
+                open ? 'Close navigation menu' : 'Open navigation menu'
+            );
+        }
+
+        function close() {
+            if (nav.classList.contains('open')) setOpen(false);
+        }
+
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            setOpen(!nav.classList.contains('open'));
+        });
+
+        // Selecting a tool navigates away, but close first so the menu
+        // isn't left open if navigation is blocked or the URL is the same.
+        nav.querySelectorAll('button[data-url]').forEach(function (btn) {
+            btn.addEventListener('click', close);
+        });
+
+        // Tapping outside the panel dismisses it
+        document.addEventListener('click', function (e) {
+            if (!isCollapsible()) return;
+            if (nav.contains(e.target) || toggle.contains(e.target)) return;
+            close();
+        });
+
+        // Escape closes and returns focus to the button
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            if (!nav.classList.contains('open')) return;
+            close();
+            toggle.focus();
+        });
+
+        // Growing past the breakpoint must not leave `.open` stuck on
+        let t;
+        window.addEventListener('resize', function () {
+            clearTimeout(t);
+            t = setTimeout(function () {
+                if (!isCollapsible()) close();
+            }, 150);
+        });
+
+    });
+
+})();

@@ -3,6 +3,10 @@
 
 <head>
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Text Compare Tool</title>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -40,6 +44,9 @@
 <link rel="stylesheet" href="{{ asset('css/speed-checker.css') }}"> -->
 
 
+
+    <!--  GLOBAL RESPONSIVE LAYER - must stay LAST so it wins the cascade -->
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.css" rel="stylesheet">
