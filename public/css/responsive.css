@@ -462,6 +462,57 @@ font-size:14px;
 } /* end <=600 */
 
 /* =========================================================================
+   TOOL PAGE HEADINGS
+   Each tool stylesheet sets its own h1 at 22-24px/700. On a 390px phone that
+   is oversized and several of them wrapped onto a second line, pushing the
+   actual tool below the fold. Scale them down and lighten the weight on small
+   screens only - desktop sizing is untouched.
+   ========================================================================= */
+
+@media(max-width:600px){
+
+.container h1{
+font-size:clamp(17px,4.6vw,20px);
+font-weight:600;
+line-height:1.25;
+margin-top:4px;
+margin-bottom:6px;
+}
+
+.container h2{
+font-size:clamp(16px,4.2vw,19px);
+font-weight:600;
+line-height:1.3;
+}
+
+/* The strapline under each tool title */
+.container .subtitle{
+font-size:13px;
+line-height:1.4;
+margin-top:2px;
+}
+
+/* Tool cards/headers carry generous desktop padding above the title */
+.pdf-header,
+.hash-header,
+.age-header,
+.md-header,
+.tool-header{
+padding-top:4px;
+margin-bottom:10px;
+}
+
+.tool-back{
+margin-top:10px;
+}
+
+.tool-back-link{
+font-size:13px;
+}
+
+}
+
+/* =========================================================================
    SHORT / LANDSCAPE PHONES  (e.g. 667x375, 844x390)
    Keep the editors usable when vertical space is scarce.
    ========================================================================= */

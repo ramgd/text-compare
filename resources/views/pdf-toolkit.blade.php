@@ -21,6 +21,12 @@
             <button class="tab-btn" data-tab="convert" onclick="switchTab('convert')">
                 <i class="fas fa-exchange-alt"></i> Convert
             </button>
+            <button class="tab-btn" data-tab="pdf2word" onclick="switchTab('pdf2word')">
+                <i class="fas fa-file-word"></i> PDF &rarr; Word
+            </button>
+            <button class="tab-btn" data-tab="word2pdf" onclick="switchTab('word2pdf')">
+                <i class="fas fa-file-pdf"></i> Word &rarr; PDF
+            </button>
             <button class="tab-btn" data-tab="protect" onclick="switchTab('protect')">
                 <i class="fas fa-lock"></i> Protect
             </button>
@@ -176,6 +182,66 @@
             </div>
         </div>
 
+        <!-- PDF to Word Tab -->
+        <div class="tab-content" id="pdf2word-tab">
+            <div class="pdf-grid">
+                <div class="input-section">
+                    <label for="pdf2wordInput">📂 Upload a PDF to convert to Word</label>
+                    <div class="file-drop-zone" id="pdf2wordDropZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag &amp; drop a PDF here or click to browse</p>
+                        <input type="file" id="pdf2wordInput" accept="application/pdf,.pdf" onchange="handlePdf2WordFile(event)">
+                    </div>
+                    <div id="pdf2wordFileList" class="file-list"></div>
+                    <div class="button-group">
+                        <button type="button" onclick="convertPdfToWord()" class="btn-primary">🔄 Convert to Word</button>
+                        <button type="button" onclick="clearPdf2Word()" class="btn-clear">🗑️ Clear</button>
+                    </div>
+                </div>
+                <div class="output-section">
+                    <label>📥 Word document</label>
+                    <div id="pdf2wordPreview" class="preview-placeholder" role="status" aria-live="polite">
+                        <i class="fas fa-file-word"></i>
+                        <p>Upload a PDF to convert</p>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" onclick="downloadWordFile()" class="btn-download">💾 Download .docx</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word to PDF Tab -->
+        <div class="tab-content" id="word2pdf-tab">
+            <div class="pdf-grid">
+                <div class="input-section">
+                    <label for="word2pdfInput">📂 Upload a Word document (.docx)</label>
+                    <div class="file-drop-zone" id="word2pdfDropZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag &amp; drop a .docx here or click to browse</p>
+                        <input type="file" id="word2pdfInput"
+                               accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                               onchange="handleWord2PdfFile(event)">
+                    </div>
+                    <div id="word2pdfFileList" class="file-list"></div>
+                    <div class="button-group">
+                        <button type="button" onclick="convertWordToPdf()" class="btn-primary">🔄 Convert to PDF</button>
+                        <button type="button" onclick="clearWord2Pdf()" class="btn-clear">🗑️ Clear</button>
+                    </div>
+                </div>
+                <div class="output-section">
+                    <label>📥 PDF document</label>
+                    <div id="word2pdfPreview" class="preview-placeholder" role="status" aria-live="polite">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>Upload a .docx to convert</p>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" onclick="downloadConvertedPdf()" class="btn-download">💾 Download PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Protect Tab -->
         <div class="tab-content" id="protect-tab">
             <div class="pdf-grid">
@@ -277,5 +343,9 @@
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<!-- PDF text extraction (PDF -> Word) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- DOCX generation (PDF -> Word) -->
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 <script src="{{ asset('js/pdf-toolkit.js') }}"></script>
 @endpush

@@ -16,6 +16,63 @@ var editedPdfBlob = null;
 var splitPdfBlobs = [];
 var convertedFiles = [];
 
+// ==================== SHARED HELPERS ====================
+
+/* Uploaded files are untrusted input. Filenames are rendered into the file
+   list, so they must be escaped, and we sniff the actual file header rather
+   than trusting the extension or the browser-reported MIME type. */
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+
+var MAX_FILE_BYTES = 100 * 1024 * 1024;   // 100 MB per file
+
+function readAsArrayBuffer(file) {
+    return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function (e) { resolve(e.target.result); };
+        reader.onerror = function () {
+            reject(new Error('Could not read "' + file.name + '". The file may be unreadable or locked.'));
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+/* Resolves with an ArrayBuffer once the bytes really look like a PDF. */
+function readPdfFile(file) {
+    if (file.size === 0) {
+        return Promise.reject(new Error('"' + file.name + '" is empty.'));
+    }
+    if (file.size > MAX_FILE_BYTES) {
+        return Promise.reject(new Error(
+            '"' + file.name + '" is larger than ' + formatFileSize(MAX_FILE_BYTES) + '.'
+        ));
+    }
+    return readAsArrayBuffer(file).then(function (buffer) {
+        var head = new Uint8Array(buffer.slice(0, 5));
+        var magic = String.fromCharCode.apply(null, head);
+        if (magic !== '%PDF-') {
+            throw new Error('"' + file.name + '" is not a valid PDF file.');
+        }
+        return buffer;
+    });
+}
+
+/* pdf-lib throws for encrypted documents; turn that into something a user
+   can act on instead of leaking the library's internal message. */
+function describePdfError(file, err) {
+    var raw = (err && err.message) ? err.message : String(err);
+    if (/encrypt/i.test(raw)) {
+        return '"' + file.name + '" is password-protected. Remove the password and try again.';
+    }
+    if (/is not a valid PDF|No PDF header|Failed to parse|Invalid object/i.test(raw)) {
+        return '"' + file.name + '" could not be read. The file may be corrupted or unsupported.';
+    }
+    return raw;
+}
+
 // ==================== TAB SWITCHING ====================
 function switchTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -59,38 +116,72 @@ function downloadFile(blob, filename) {
 
 // ==================== MERGE PDF ====================
 function handleMergeFiles(event) {
-    var files = event.target.files;
-    for (var i = 0; i < files.length; i++) {
-        if (files[i].type === 'application/pdf') {
-            mergeFiles.push(files[i]);
-        } else {
-            showToast(files[i].name + ' is not a PDF file', 'error');
+    var files = Array.prototype.slice.call(event.target.files);
+    var added = 0;
+
+    files.forEach(function (file) {
+        var looksPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+        if (!looksPdf) {
+            showToast('"' + file.name + '" is not a PDF file', 'error');
+            return;
         }
-    }
+        if (file.size === 0) {
+            showToast('"' + file.name + '" is empty', 'error');
+            return;
+        }
+        mergeFiles.push(file);
+        added++;
+    });
+
     renderMergeFileList();
     event.target.value = '';
-    if (files.length > 0) {
-        showToast(files.length + ' PDF(s) added', 'success');
+
+    if (added > 0) {
+        showToast(added + ' PDF(s) added', 'success');
     }
 }
 
 function renderMergeFileList() {
     var list = document.getElementById('mergeFileList');
     list.innerHTML = '';
+
     if (mergeFiles.length === 0) {
         list.innerHTML = '<p style="color: #999; font-size: 13px; text-align: center;">No files uploaded</p>';
         return;
     }
-    mergeFiles.forEach(function(file, index) {
+
+    mergeFiles.forEach(function (file, index) {
         var div = document.createElement('div');
         div.className = 'file-item';
-        div.innerHTML = `
-            <span class="file-name"><i class="fas fa-file-pdf"></i> ${file.name}</span>
-            <span class="file-size">${formatFileSize(file.size)}</span>
-            <button onclick="removeMergeFile(${index})" class="file-remove" title="Remove">✕</button>
-        `;
+        /* Filenames come from the user, so they are escaped before being
+           placed in innerHTML. Duplicate names are fine - the position
+           number is what identifies a row. */
+        div.innerHTML =
+            '<span class="file-order">' + (index + 1) + '</span>' +
+            '<span class="file-name"><i class="fas fa-file-pdf"></i> ' + escapeHtml(file.name) + '</span>' +
+            '<span class="file-size">' + formatFileSize(file.size) + '</span>' +
+            '<span class="file-actions">' +
+              '<button type="button" onclick="moveMergeFile(' + index + ',-1)" class="file-move"' +
+                (index === 0 ? ' disabled' : '') +
+                ' aria-label="Move ' + escapeHtml(file.name) + ' up" title="Move up">&#9650;</button>' +
+              '<button type="button" onclick="moveMergeFile(' + index + ',1)" class="file-move"' +
+                (index === mergeFiles.length - 1 ? ' disabled' : '') +
+                ' aria-label="Move ' + escapeHtml(file.name) + ' down" title="Move down">&#9660;</button>' +
+              '<button type="button" onclick="removeMergeFile(' + index + ')" class="file-remove"' +
+                ' aria-label="Remove ' + escapeHtml(file.name) + '" title="Remove">&#10005;</button>' +
+            '</span>';
         list.appendChild(div);
     });
+}
+
+/* Reorder: merge order is the page order of the result. */
+function moveMergeFile(index, delta) {
+    var target = index + delta;
+    if (target < 0 || target >= mergeFiles.length) return;
+    var moved = mergeFiles[index];
+    mergeFiles[index] = mergeFiles[target];
+    mergeFiles[target] = moved;
+    renderMergeFileList();
 }
 
 function removeMergeFile(index) {
@@ -102,10 +193,8 @@ function clearMerge() {
     mergeFiles = [];
     mergedPdfBlob = null;
     document.getElementById('mergeFileList').innerHTML = '<p style="color: #999; font-size: 13px; text-align: center;">No files uploaded</p>';
-    document.getElementById('mergePreview').innerHTML = `
-        <i class="fas fa-file-pdf"></i>
-        <p>Upload PDFs to merge</p>
-    `;
+    document.getElementById('mergePreview').innerHTML =
+        '<i class="fas fa-file-pdf"></i><p>Upload PDFs to merge</p>';
     document.getElementById('mergeInput').value = '';
     showToast('Cleared', 'info');
 }
@@ -113,44 +202,68 @@ function clearMerge() {
 function mergePDF() {
     if (mergeFiles.length < 2) {
         showToast('Please upload at least 2 PDF files', 'error');
-        return;
+        return Promise.resolve();
     }
-    
+    if (typeof PDFLib === 'undefined') {
+        showToast('PDF engine failed to load. Please refresh the page.', 'error');
+        return Promise.resolve();
+    }
+
     showToast('Merging PDFs...', 'info');
-    
-    var readerPromises = mergeFiles.map(function(file) {
-        return new Promise(function(resolve, reject) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                resolve(e.target.result);
-            };
-            reader.onerror = function() {
-                reject('Failed to read ' + file.name);
-            };
-            reader.readAsArrayBuffer(file);
+    mergedPdfBlob = null;
+
+    /* A real merge: copy every page of every document into one new document,
+       in list order. The previous build simply concatenated the raw bytes of
+       the files, which produces a corrupt PDF that viewers cannot open. */
+    return PDFLib.PDFDocument.create().then(function (out) {
+        var pageTotal = 0;
+
+        var chain = mergeFiles.reduce(function (promise, file) {
+            return promise.then(function () {
+                return readPdfFile(file)
+                    .then(function (buffer) {
+                        return PDFLib.PDFDocument.load(buffer, { ignoreEncryption: false });
+                    })
+                    .then(function (src) {
+                        return out.copyPages(src, src.getPageIndices());
+                    })
+                    .then(function (pages) {
+                        /* copyPages preserves each page's own MediaBox and
+                           /Rotate, so size and rotation survive the merge. */
+                        pages.forEach(function (page) { out.addPage(page); });
+                        pageTotal += pages.length;
+                    })
+                    .catch(function (err) {
+                        throw new Error(describePdfError(file, err));
+                    });
+            });
+        }, Promise.resolve());
+
+        return chain.then(function () {
+            if (pageTotal === 0) {
+                throw new Error('The selected PDFs contain no pages.');
+            }
+            out.setProducer('AiToolyfy PDF Toolkit');
+            out.setCreationDate(new Date());
+            return out.save();
+        }).then(function (bytes) {
+            mergedPdfBlob = new Blob([bytes], { type: 'application/pdf' });
+
+            document.getElementById('mergePreview').innerHTML =
+                '<i class="fas fa-file-pdf" style="color:#28a745;font-size:48px;"></i>' +
+                '<p style="color:#28a745;font-weight:500;">Merged successfully</p>' +
+                '<small style="color:#666;">' + mergeFiles.length + ' files &middot; ' +
+                pageTotal + ' pages &middot; ' + formatFileSize(mergedPdfBlob.size) + '</small>';
+
+            showToast('PDFs merged successfully!', 'success');
         });
-    });
-    
-    Promise.all(readerPromises).then(function(arrays) {
-        var mergedArray = new Uint8Array(arrays.reduce(function(acc, arr) {
-            return acc + arr.byteLength;
-        }, 0));
-        var offset = 0;
-        arrays.forEach(function(arr) {
-            mergedArray.set(new Uint8Array(arr), offset);
-            offset += arr.byteLength;
-        });
-        
-        mergedPdfBlob = new Blob([mergedArray], { type: 'application/pdf' });
-        
-        document.getElementById('mergePreview').innerHTML = `
-            <i class="fas fa-file-pdf" style="color: #28a745; font-size: 48px;"></i>
-            <p style="color: #28a745; font-weight: 500;">✅ PDF Merged Successfully!</p>
-            <small style="color: #666;">${mergeFiles.length} PDFs merged into one file</small>
-        `;
-        showToast('PDFs merged successfully!', 'success');
-    }).catch(function(error) {
-        showToast('Error merging PDFs: ' + error, 'error');
+    }).catch(function (err) {
+        mergedPdfBlob = null;
+        document.getElementById('mergePreview').innerHTML =
+            '<i class="fas fa-triangle-exclamation" style="color:#dc3545;font-size:40px;"></i>' +
+            '<p style="color:#dc3545;font-weight:500;">Merge failed</p>' +
+            '<small style="color:#666;">' + escapeHtml(err.message) + '</small>';
+        showToast(err.message, 'error');
     });
 }
 
@@ -699,3 +812,353 @@ document.addEventListener('DOMContentLoaded', function() {
         }, false);
     });
 });
+// ============================================================================
+// PDF -> WORD
+//
+// Runs entirely in the browser: pdf.js extracts the text layer, docx builds a
+// real .docx (Open XML) package. There is no server round-trip, so the
+// document never leaves the machine.
+//
+// Honest about its limits: this reproduces text content, paragraph grouping,
+// heading-ish lines and page order. It does NOT reproduce the original page
+// layout, images, or vector graphics, and it cannot read scanned PDFs that
+// have no text layer (those are detected and reported rather than silently
+// producing an empty file).
+// ============================================================================
+
+var pdf2wordFile = null;
+var generatedDocxBlob = null;
+
+function setPdf2WordStatus(html) {
+    document.getElementById('pdf2wordPreview').innerHTML = html;
+}
+
+function handlePdf2WordFile(event) {
+    var file = event.target.files[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (!(file.type === 'application/pdf' || /\.pdf$/i.test(file.name))) {
+        showToast('Please choose a PDF file', 'error');
+        return;
+    }
+
+    pdf2wordFile = file;
+    generatedDocxBlob = null;
+    document.getElementById('pdf2wordFileList').innerHTML =
+        '<div class="file-item">' +
+          '<span class="file-name"><i class="fas fa-file-pdf"></i> ' + escapeHtml(file.name) + '</span>' +
+          '<span class="file-size">' + formatFileSize(file.size) + '</span>' +
+        '</div>';
+    setPdf2WordStatus('<i class="fas fa-file-word"></i><p>Ready to convert</p>');
+    showToast('PDF loaded', 'success');
+}
+
+function clearPdf2Word() {
+    pdf2wordFile = null;
+    generatedDocxBlob = null;
+    document.getElementById('pdf2wordFileList').innerHTML = '';
+    document.getElementById('pdf2wordInput').value = '';
+    setPdf2WordStatus('<i class="fas fa-file-word"></i><p>Upload a PDF to convert</p>');
+    showToast('Cleared', 'info');
+}
+
+/* Group the positioned text fragments pdf.js returns back into lines, using
+   their y coordinate, then into paragraphs on a blank-line gap. */
+function pdfItemsToLines(items) {
+    var lines = [];
+    var current = null;
+
+    items.forEach(function (item) {
+        if (!item.str) return;
+        var y = Math.round(item.transform[5]);
+
+        if (current && Math.abs(current.y - y) <= 2) {
+            current.parts.push(item);
+        } else {
+            if (current) lines.push(current);
+            current = { y: y, parts: [item] };
+        }
+    });
+    if (current) lines.push(current);
+
+    return lines.map(function (line) {
+        // pdf.js emits fragments left-to-right already, but be explicit.
+        line.parts.sort(function (a, b) { return a.transform[4] - b.transform[4]; });
+        var text = line.parts.map(function (p) { return p.str; }).join('');
+        var height = Math.max.apply(null, line.parts.map(function (p) {
+            return Math.abs(p.transform[3]) || 0;
+        }));
+        return { text: text.replace(/\s+$/, ''), y: line.y, size: height };
+    }).filter(function (l) { return l.text.trim() !== ''; });
+}
+
+function convertPdfToWord() {
+    if (!pdf2wordFile) {
+        showToast('Please upload a PDF file', 'error');
+        return Promise.resolve();
+    }
+    if (typeof pdfjsLib === 'undefined' || typeof docx === 'undefined') {
+        showToast('Conversion engine failed to load. Please refresh the page.', 'error');
+        return Promise.resolve();
+    }
+
+    var file = pdf2wordFile;
+    showToast('Converting to Word...', 'info');
+    setPdf2WordStatus('<i class="fas fa-spinner fa-spin"></i><p>Converting...</p>');
+    generatedDocxBlob = null;
+
+    return readPdfFile(file).then(function (buffer) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        return pdfjsLib.getDocument({ data: buffer }).promise;
+    }).then(function (pdf) {
+        var pages = [];
+        var chain = Promise.resolve();
+
+        for (var n = 1; n <= pdf.numPages; n++) {
+            (function (pageNo) {
+                chain = chain.then(function () {
+                    return pdf.getPage(pageNo)
+                        .then(function (page) { return page.getTextContent(); })
+                        .then(function (content) {
+                            pages.push(pdfItemsToLines(content.items));
+                        });
+                });
+            })(n);
+        }
+
+        return chain.then(function () { return { pages: pages, count: pdf.numPages }; });
+    }).then(function (result) {
+        var totalLines = result.pages.reduce(function (a, p) { return a + p.length; }, 0);
+
+        if (totalLines === 0) {
+            /* No text layer at all - almost always a scanned/image-only PDF.
+               Say so instead of handing back an empty Word file. */
+            throw new Error(
+                'No text found in this PDF. It looks like a scanned document - ' +
+                'try the Image to Text (OCR) tool instead.'
+            );
+        }
+
+        /* Body size = the most common line height on the page. Lines that are
+           clearly larger become headings. */
+        var sizes = {};
+        result.pages.forEach(function (lines) {
+            lines.forEach(function (l) {
+                var k = Math.round(l.size);
+                sizes[k] = (sizes[k] || 0) + 1;
+            });
+        });
+        var bodySize = Number(Object.keys(sizes).sort(function (a, b) {
+            return sizes[b] - sizes[a];
+        })[0]) || 12;
+
+        var children = [];
+
+        result.pages.forEach(function (lines, pageIndex) {
+            if (pageIndex > 0) {
+                children.push(new docx.Paragraph({ text: '', pageBreakBefore: true }));
+            }
+
+            var buffer = [];
+            var lastY = null;
+
+            function flush() {
+                if (!buffer.length) return;
+                var text = buffer.join(' ').replace(/\s{2,}/g, ' ').trim();
+                if (text) {
+                    children.push(new docx.Paragraph({
+                        children: [new docx.TextRun({ text: text, size: Math.round(bodySize * 2) })],
+                        spacing: { after: 120 }
+                    }));
+                }
+                buffer = [];
+            }
+
+            lines.forEach(function (line) {
+                var ratio = line.size / bodySize;
+                var gap = (lastY === null) ? 0 : Math.abs(lastY - line.y);
+                lastY = line.y;
+
+                if (ratio >= 1.6) {
+                    flush();
+                    children.push(new docx.Paragraph({
+                        text: line.text.trim(),
+                        heading: ratio >= 2 ? docx.HeadingLevel.HEADING_1 : docx.HeadingLevel.HEADING_2
+                    }));
+                    return;
+                }
+
+                // A gap much larger than a line height ends the paragraph.
+                if (gap > line.size * 1.8) flush();
+                buffer.push(line.text.trim());
+            });
+            flush();
+        });
+
+        return docx.Packer.toBlob(new docx.Document({
+            creator: 'AiToolyfy PDF Toolkit',
+            title: file.name.replace(/\.pdf$/i, ''),
+            sections: [{ children: children }]
+        })).then(function (blob) {
+            return { blob: blob, pages: result.count, paragraphs: children.length };
+        });
+    }).then(function (out) {
+        generatedDocxBlob = out.blob;
+        setPdf2WordStatus(
+            '<i class="fas fa-file-word" style="color:#28a745;font-size:48px;"></i>' +
+            '<p style="color:#28a745;font-weight:500;">Converted successfully</p>' +
+            '<small style="color:#666;">' + out.pages + ' pages &middot; ' +
+            out.paragraphs + ' blocks &middot; ' + formatFileSize(out.blob.size) + '</small>'
+        );
+        showToast('Word document ready', 'success');
+    }).catch(function (err) {
+        generatedDocxBlob = null;
+        var msg = describePdfError(file, err);
+        setPdf2WordStatus(
+            '<i class="fas fa-triangle-exclamation" style="color:#dc3545;font-size:40px;"></i>' +
+            '<p style="color:#dc3545;font-weight:500;">Conversion failed</p>' +
+            '<small style="color:#666;">' + escapeHtml(msg) + '</small>'
+        );
+        showToast(msg, 'error');
+    });
+}
+
+function downloadWordFile() {
+    if (!generatedDocxBlob) {
+        showToast('Please convert a PDF first', 'error');
+        return;
+    }
+    var name = (pdf2wordFile ? pdf2wordFile.name.replace(/\.pdf$/i, '') : 'document') + '.docx';
+    downloadFile(generatedDocxBlob, name);
+}
+
+// ============================================================================
+// WORD -> PDF
+//
+// This one step runs on the server: a faithful .docx render needs a real Open
+// XML reader, so the file is posted to /pdf-toolkit/word-to-pdf where PhpWord
+// reads it and Dompdf lays it out. The upload is validated and deleted
+// server-side; nothing is stored.
+// ============================================================================
+
+var word2pdfFile = null;
+var convertedPdfBlob = null;
+
+var DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+var MAX_DOCX_BYTES = 20 * 1024 * 1024;
+
+function setWord2PdfStatus(html) {
+    document.getElementById('word2pdfPreview').innerHTML = html;
+}
+
+function handleWord2PdfFile(event) {
+    var file = event.target.files[0];
+    event.target.value = '';
+    if (!file) return;
+
+    if (/\.doc$/i.test(file.name)) {
+        showToast('Legacy .doc files are not supported — please save as .docx', 'error');
+        return;
+    }
+    if (!/\.docx$/i.test(file.name) && file.type !== DOCX_MIME) {
+        showToast('Please choose a .docx Word document', 'error');
+        return;
+    }
+    if (file.size === 0) {
+        showToast('That file is empty', 'error');
+        return;
+    }
+    if (file.size > MAX_DOCX_BYTES) {
+        showToast('That document is larger than ' + formatFileSize(MAX_DOCX_BYTES), 'error');
+        return;
+    }
+
+    word2pdfFile = file;
+    convertedPdfBlob = null;
+    document.getElementById('word2pdfFileList').innerHTML =
+        '<div class="file-item">' +
+          '<span class="file-name"><i class="fas fa-file-word"></i> ' + escapeHtml(file.name) + '</span>' +
+          '<span class="file-size">' + formatFileSize(file.size) + '</span>' +
+        '</div>';
+    setWord2PdfStatus('<i class="fas fa-file-pdf"></i><p>Ready to convert</p>');
+    showToast('Document loaded', 'success');
+}
+
+function clearWord2Pdf() {
+    word2pdfFile = null;
+    convertedPdfBlob = null;
+    document.getElementById('word2pdfFileList').innerHTML = '';
+    document.getElementById('word2pdfInput').value = '';
+    setWord2PdfStatus('<i class="fas fa-file-pdf"></i><p>Upload a .docx to convert</p>');
+    showToast('Cleared', 'info');
+}
+
+function convertWordToPdf() {
+    if (!word2pdfFile) {
+        showToast('Please upload a Word document', 'error');
+        return Promise.resolve();
+    }
+
+    var file = word2pdfFile;
+    var form = new FormData();
+    form.append('document', file, file.name);
+
+    showToast('Converting to PDF...', 'info');
+    setWord2PdfStatus('<i class="fas fa-spinner fa-spin"></i><p>Converting...</p>');
+    convertedPdfBlob = null;
+
+    var token = document.querySelector('meta[name="csrf-token"]');
+
+    return fetch('/pdf-toolkit/word-to-pdf', {
+        method: 'POST',
+        body: form,
+        headers: {
+            'X-CSRF-TOKEN': token ? token.getAttribute('content') : '',
+            'Accept': 'application/pdf, application/json'
+        }
+    }).then(function (response) {
+        var type = response.headers.get('Content-Type') || '';
+
+        if (!response.ok || type.indexOf('application/pdf') === -1) {
+            /* The server always reports failures as JSON with a plain
+               sentence; never surface a raw body or a stack trace. */
+            return response.json()
+                .catch(function () { return {}; })
+                .then(function (body) {
+                    throw new Error(body.message || 'Unable to convert this document. Please try again.');
+                });
+        }
+        return response.blob();
+    }).then(function (blob) {
+        if (!blob || blob.size === 0) {
+            throw new Error('The converted PDF came back empty.');
+        }
+        convertedPdfBlob = blob;
+        setWord2PdfStatus(
+            '<i class="fas fa-file-pdf" style="color:#28a745;font-size:48px;"></i>' +
+            '<p style="color:#28a745;font-weight:500;">Converted successfully</p>' +
+            '<small style="color:#666;">' + formatFileSize(blob.size) + '</small>'
+        );
+        showToast('PDF ready', 'success');
+    }).catch(function (err) {
+        convertedPdfBlob = null;
+        var msg = err.message || 'Unable to convert this document.';
+        setWord2PdfStatus(
+            '<i class="fas fa-triangle-exclamation" style="color:#dc3545;font-size:40px;"></i>' +
+            '<p style="color:#dc3545;font-weight:500;">Conversion failed</p>' +
+            '<small style="color:#666;">' + escapeHtml(msg) + '</small>'
+        );
+        showToast(msg, 'error');
+    });
+}
+
+function downloadConvertedPdf() {
+    if (!convertedPdfBlob) {
+        showToast('Please convert a document first', 'error');
+        return;
+    }
+    var name = (word2pdfFile ? word2pdfFile.name.replace(/\.docx$/i, '') : 'document') + '.pdf';
+    downloadFile(convertedPdfBlob, name);
+}

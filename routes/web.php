@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\CompareController;
+use App\Http\Controllers\DocumentConvertController;
 use App\Http\Controllers\QrCodeController;
 
 Route::get('/', [CompareController::class,'index']);
@@ -108,6 +109,11 @@ Route::get('/url-encoder', function () {
 Route::get('/mind-map', function () {
     return view('mind-map');
 })->name('mind-map');
+
+// Word -> PDF runs server-side (PhpWord + Dompdf); the rest of the PDF
+// toolkit is handled in the browser.
+Route::post('/pdf-toolkit/word-to-pdf', [DocumentConvertController::class, 'wordToPdf'])
+    ->name('pdf-toolkit.word-to-pdf');
 
 Route::get('/pdf-toolkit', function () {
     return view('pdf-toolkit');

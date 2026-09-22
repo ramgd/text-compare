@@ -37,6 +37,8 @@
 
     @include('partials.header')
 
+    @include('partials.back-link')
+
     <div class="container">
         @yield('content')
     </div>

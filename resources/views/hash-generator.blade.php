@@ -36,6 +36,7 @@
                             <label><input type="checkbox" class="hash-algo" value="md5" checked> MD5</label>
                             <label><input type="checkbox" class="hash-algo" value="sha1" checked> SHA-1</label>
                             <label><input type="checkbox" class="hash-algo" value="sha256" checked> SHA-256</label>
+                            <label><input type="checkbox" class="hash-algo" value="sha384" checked> SHA-384</label>
                             <label><input type="checkbox" class="hash-algo" value="sha512" checked> SHA-512</label>
                         </div>
                     </div>
@@ -66,6 +67,12 @@
                             <input type="text" id="sha256Result" readonly placeholder="SHA-256 hash will appear here...">
                             <button onclick="copyHash('sha256Result')" class="btn-copy-small">📋</button>
                             <button onclick="decodeHash('sha256Result')" class="btn-decode-small">🔓</button>
+                        </div>
+                        <div class="hash-result-item">
+                            <span class="hash-algo-label">SHA-384</span>
+                            <input type="text" id="sha384Result" readonly placeholder="SHA-384 hash will appear here...">
+                            <button onclick="copyHash('sha384Result')" class="btn-copy-small" aria-label="Copy SHA-384 hash" title="Copy">📋</button>
+                            <button onclick="decodeHash('sha384Result')" class="btn-decode-small" aria-label="Look up SHA-384 hash" title="Look up">🔓</button>
                         </div>
                         <div class="hash-result-item">
                             <span class="hash-algo-label">SHA-512</span>
@@ -180,6 +187,11 @@
                             <button onclick="copyHash('fileSha256Result')" class="btn-copy-small">📋</button>
                         </div>
                         <div class="hash-result-item">
+                            <span class="hash-algo-label">SHA-384</span>
+                            <input type="text" id="fileSha384Result" readonly placeholder="SHA-384 hash will appear here...">
+                            <button onclick="copyHash('fileSha384Result')" class="btn-copy-small" aria-label="Copy file SHA-384" title="Copy">📋</button>
+                        </div>
+                        <div class="hash-result-item">
                             <span class="hash-algo-label">SHA-512</span>
                             <input type="text" id="fileSha512Result" readonly placeholder="SHA-512 hash will appear here...">
                             <button onclick="copyHash('fileSha512Result')" class="btn-copy-small">📋</button>
@@ -246,5 +258,8 @@
 @endpush
 
 @push('scripts')
+<!-- MD5 is not provided by crypto.subtle, so it comes from a vetted library
+     rather than a hand-written implementation. -->
+<script src="https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js"></script>
 <script src="{{ asset('js/hash-generator.js') }}"></script>
 @endpush

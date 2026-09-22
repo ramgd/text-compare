@@ -798,3 +798,60 @@ body {
 body > .main-content {
     flex: 1;
 }
+
+
+/* ================= BACK TO TOOLS ================= */
+
+/* Shown on every page except the compare tool (home) and the dashboard, so
+   there is always a visible way out of a tool. */
+
+.tool-back{
+width:100%;
+max-width:1600px;
+margin:12px auto 0;
+padding-inline:clamp(12px,4vw,40px);
+}
+
+.tool-back-link{
+display:inline-flex;
+align-items:center;
+gap:8px;
+min-height:40px;
+padding:6px 14px 6px 10px;
+border-radius:999px;
+background:#fff;
+border:1px solid #e3e3e3;
+color:#555;
+font-size:14px;
+font-weight:600;
+text-decoration:none;
+transition:color .2s, border-color .2s, background .2s;
+}
+
+.tool-back-link:hover{
+color:#ff7a18;
+border-color:#ffc9a3;
+background:#fff7f1;
+}
+
+.tool-back-link:focus-visible{
+outline:3px solid #ff7a18;
+outline-offset:2px;
+}
+
+.tool-back-arrow{
+font-size:16px;
+line-height:1;
+}
+
+body.dark .tool-back-link{
+background:#1e1e1e;
+border-color:#333;
+color:#ccc;
+}
+
+body.dark .tool-back-link:hover{
+color:#ffb347;
+border-color:#5a3a1e;
+background:#241a11;
+}
