@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>🎯 Arrow Puzzle Maze</title>
+{{-- This view used to embed a complete <!DOCTYPE html> document inside
+     the layout's body: a second <html>, <head> and <body> nested in the
+     page, and a duplicate viewport meta tag. The scaffolding has been
+     removed so the page is one valid document. The game's own styles and
+     markup are unchanged apart from scoping the global reset below. --}}
     <style>
         /* ============================================
            ARROW PUZZLE MAZE GAME - COMPLETE CSS
            ============================================ */
 
-        * {
+        .game-arrow-wrapper, .game-arrow-wrapper * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -545,8 +544,7 @@
             }
         }
     </style>
-</head>
-<body>
+
 
 <div class="game-arrow-wrapper">
     <div class="game-arrow-container">
@@ -1399,8 +1397,6 @@
 
 })();
 </script>
-</body>
-</html>
 @include('partials.tool-content')
 
 @endsection
