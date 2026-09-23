@@ -1,0 +1,58 @@
+# Build context exclusions.
+#
+# Everything listed here is either rebuilt inside the image, not needed at
+# runtime, or must never be baked into an image. Anything the running
+# application needs must NOT be listed.
+
+# ---- secrets: never copy these into an image -------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+auth.json
+
+# ---- rebuilt inside the image ----------------------------------------------
+# composer install runs in the Dockerfile, so the committed vendor/ tree is
+# not needed in the context (it is ~60 MB of the 145 MB).
+vendor/
+
+# Frontend build output is produced by `npm run prod` and committed under
+# public/css and public/js, so node_modules itself is never needed at runtime.
+node_modules/
+
+# ---- version control and history -------------------------------------------
+.git/
+.gitignore
+.gitattributes
+
+# ---- local runtime state ----------------------------------------------------
+# The directories themselves are recreated in the Dockerfile; only their
+# contents are excluded.
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/testing/*
+storage/app/doc-convert/*
+bootstrap/cache/*.php
+
+# ---- development-only --------------------------------------------------------
+tests/
+phpunit.xml
+.phpunit.result.cache
+docker-compose*.yml
+Dockerfile
+.dockerignore
+README.md
+docs/
+
+# ---- editor and OS noise -----------------------------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+npm-debug.log
+yarn-error.log
