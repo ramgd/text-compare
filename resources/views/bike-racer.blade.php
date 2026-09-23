@@ -2,14 +2,13 @@
 
 @section('content')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>🏍️ Bike Racer</title>
+{{-- This view used to embed a complete <!DOCTYPE html> document inside
+     the layout's body: a second <html>, <head> and <body> nested in the
+     page, and a duplicate viewport meta tag. The scaffolding has been
+     removed so the page is one valid document. The game's own styles and
+     markup are unchanged apart from scoping the global reset below. --}}
     <style>
-        * {
+        .bike-racer-wrapper, .bike-racer-wrapper * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -435,8 +434,7 @@
             }
         }
     </style>
-</head>
-<body>
+
 
 <div class="bike-racer-wrapper">
     <div id="gameWrapper">
@@ -1393,8 +1391,6 @@ window.addEventListener('load', () => {
 });
 </script>
 
-</body>
-</html>
 @include('partials.tool-content')
 
 @endsection

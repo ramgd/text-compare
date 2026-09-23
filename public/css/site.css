@@ -996,3 +996,49 @@ color:#eee;
 }
 
 body.dark .tool-doc{ border-top-color:#2e2e2e; }
+
+/* ---------- footer on small screens ---------- */
+
+/* Footer links are plain text links; at default line height they are a ~16px
+   tap target. Give them room on touch screens without changing the desktop
+   look, and stack the bottom bar so nothing crowds. */
+@media (max-width: 900px), (pointer: coarse) {
+
+    .footer-col li { margin-bottom: 2px; }
+
+    .footer-col a,
+    .footer-legal a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 2px 0;
+    }
+
+    .footer-legal {
+        gap: 0 18px;
+    }
+}
+
+@media (max-width: 760px) {
+
+    .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 26px;
+        padding-top: 34px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    /* Two columns of links rather than three cramped ones. */
+    .footer-cols {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+}
