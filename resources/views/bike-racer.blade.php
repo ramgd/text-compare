@@ -478,7 +478,7 @@
 
             <!-- Game Overlay -->
             <div id="gameOverlay">
-                <h1>💥 GAME OVER</h1>
+                <h2>💥 GAME OVER</h2>
                 <div class="final-score">Score: <span id="finalScore">0</span></div>
                 <div class="high-score">🏆 Best: <span id="finalHighScore">0</span></div>
                 <button id="restartBtn">🔄 Play Again</button>
@@ -1395,4 +1395,6 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
+@include('partials.tool-content')
+
 @endsection

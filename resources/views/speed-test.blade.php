@@ -136,6 +136,8 @@
 
 <!-- Toast -->
 <div id="speedtestToast" class="speedtest-toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

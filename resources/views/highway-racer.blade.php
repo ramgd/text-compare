@@ -70,14 +70,14 @@
         <!-- Countdown -->
         <div id="countdown" class="overlay-screen hidden">
             <div class="screen-content">
-                <h1 id="countdownNumber">3</h1>
+                <h2 id="countdownNumber">3</h2>
             </div>
         </div>
 
         <!-- Game Over -->
         <div id="gameOver" class="overlay-screen hidden">
             <div class="screen-content">
-                <h1>💥 Game Over</h1>
+                <h2>💥 Game Over</h2>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <span>Score</span>
@@ -1701,4 +1701,6 @@
 
 })();
 </script>
+@include('partials.tool-content')
+
 @endsection

@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="ocr-container">
 
     <div class="ocr-card">
@@ -28,6 +30,8 @@
 
             <img
                 id="preview"
+                alt=""
+                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                 style="display:none;">
 
         </div>
@@ -56,6 +60,8 @@
     </div>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

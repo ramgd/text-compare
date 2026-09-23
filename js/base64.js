@@ -163,7 +163,11 @@ function processImage(file) {
     const reader = new FileReader();
     reader.onload = function(e) {
         document.getElementById('imagePreview').style.display = 'block';
-        document.getElementById('previewImage').src = e.target.result;
+        var previewImage = document.getElementById('previewImage');
+        previewImage.src = e.target.result;
+        previewImage.alt = 'Preview of the selected image';
+        previewImage.hidden = false;   // the placeholder starts hidden so an
+                                       // empty <img> never renders as broken
     };
     reader.readAsDataURL(file);
     

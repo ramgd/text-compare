@@ -68,131 +68,144 @@ rightBox.innerHTML = `
 return;
 }
 
-/* FIX START : LINE ALIGNMENT ENGINE */
+/* ---------------------------------------------------------------------------
+   LINE ALIGNMENT ENGINE
 
-let lines1 = text1.split("\n");
-let lines2 = text2.split("\n");
+   The previous engine walked both files with a single-line lookahead:
+   it only recognised a removal if lines1[i+1] === l2, and an insertion if
+   l1 === lines2[j+1]. That works for a one-line edit and breaks on anything
+   larger - inserting three lines into a file made every following line show
+   as changed, because the two sides never re-synchronised.
 
-const dmp = new diff_match_patch();
+   This uses diff-match-patch's line mode, which is already loaded for the
+   word-level diff. diff_linesToChars_ maps each distinct line to a single
+   character, so diff_main computes a real longest-common-subsequence over
+   whole lines; diff_charsToLines_ maps the result back. Runs of deleted and
+   inserted lines that sit next to each other are then paired up row by row
+   and given the existing character-level highlight, which is what makes a
+   modified line show its changed words.
+   --------------------------------------------------------------------------- */
 
-changes=[];
-current=-1;
+const lineDmp = new diff_match_patch();
 
-/* FIX: instead of simple for loop we use smart pointer system */
+/* diff_linesToChars_ keeps each line's trailing newline as part of the line,
+   so a final line without one ("A") is a different token from the same line
+   with one ("A\n"). Normalising both sides to end with a newline keeps every
+   token uniform - otherwise a diff chunk can start mid-line and produce a
+   spurious blank row. */
+const nl1 = text1.endsWith("\n") ? text1 : text1 + "\n";
+const nl2 = text2.endsWith("\n") ? text2 : text2 + "\n";
 
-let i = 0;
-let j = 0;
-let lineNumber = 0;
+const mapped = lineDmp.diff_linesToChars_(nl1, nl2);
+const lineDiffs = lineDmp.diff_main(mapped.chars1, mapped.chars2, false);
+lineDmp.diff_charsToLines_(lineDiffs, mapped.lineArray);
 
-while(i < lines1.length || j < lines2.length){
+/* diff_main can leave adjacent runs of the same type; merge them so a
+   delete-run is always immediately followed by its insert-run. */
+lineDmp.diff_cleanupSemantic(lineDiffs);
 
-let l1 = lines1[i] ?? "";
-let l2 = lines2[j] ?? "";
-
-let leftLine="";
-let rightLine="";
-
-/* SAME LINE */
-
-if(l1 === l2){
-
-leftLine = escapeHtml(l1);
-rightLine = escapeHtml(l2);
-
-i++;
-j++;
-
+function splitLines(chunk) {
+    const out = chunk.split("\n");
+    /* A chunk ends with \n when it is a whole number of lines; drop the
+       empty tail that split() produces so we do not invent a blank row. */
+    if (out.length && out[out.length - 1] === "") out.pop();
+    return out;
 }
 
-/* LINE REMOVED */
-
-else if(lines1[i+1] === l2){
-
-// leftLine = "<span class='remove'>"+escapeHtml(l1)+"</span>";
-// rightLine = "<span class='add'></span>";
-leftLine = "<span class='remove'>"+escapeHtml(l1)+"</span>";
-rightLine = "<span class='add'>&nbsp;</span>";   /* FIX: blank highlight */
-changes.push(lineNumber);
-
-i++;
-
-}
-
-/* LINE ADDED */
-
-else if(l1 === lines2[j+1]){
-
-// leftLine = "<span class='remove'></span>";
-// rightLine = "<span class='add'>"+escapeHtml(l2)+"</span>";
-leftLine = "<span class='remove'>&nbsp;</span>";  /* FIX: blank highlight */
-rightLine = "<span class='add'>"+escapeHtml(l2)+"</span>";
-changes.push(lineNumber);
-
-j++;
-
-}
-
-/* LINE MODIFIED */
-
-else{
-
-let diff = dmp.diff_main(l1,l2);
-dmp.diff_cleanupSemantic(diff);
-
-diff.forEach(function(part){
-
-let type = part[0];
-let text = escapeHtml(part[1]);
-
-if(type === 0){
-
-leftLine += text;
-rightLine += text;
-
-}
-
-if(type === -1){
-
-leftLine += "<span class='remove'>"+text+"</span>";
-
-}
-
-if(type === 1){
-
-rightLine += "<span class='add'>"+text+"</span>";
-
-}
-
+/* Flatten the diff into [type, line] pairs. */
+const ops = [];
+lineDiffs.forEach(function (part) {
+    const type = part[0];
+    splitLines(part[1]).forEach(function (line) { ops.push([type, line]); });
 });
 
-changes.push(lineNumber);
+changes = [];
+current = -1;
 
-i++;
-j++;
+const leftRows = [];
+const rightRows = [];
+let lineNumber = 0;
 
+function pushRow(leftHtml, rightHtml, isChange) {
+    leftRows.push(
+        '<div class="line" id="l' + lineNumber + '">' +
+        '<span class="number">' + (lineNumber + 1) + '</span>' +
+        '<span class="code">' + leftHtml + '</span></div>'
+    );
+    rightRows.push(
+        '<div class="line" id="r' + lineNumber + '">' +
+        '<span class="number">' + (lineNumber + 1) + '</span>' +
+        '<span class="code">' + rightHtml + '</span></div>'
+    );
+    if (isChange) changes.push(lineNumber);
+    lineNumber++;
 }
 
-/* PRINT LINE */
+/* Character-level highlight for a pair of lines that replaced each other. */
+function modifiedPair(oldLine, newLine) {
+    const charDiff = lineDmp.diff_main(oldLine, newLine);
+    lineDmp.diff_cleanupSemantic(charDiff);
 
-leftBox.innerHTML += `
-<div class="line" id="l${lineNumber}">
-<span class="number">${lineNumber+1}</span>
-<span class="code">${leftLine}</span>
-</div>
-`;
+    let leftHtml = "";
+    let rightHtml = "";
 
-rightBox.innerHTML += `
-<div class="line" id="r${lineNumber}">
-<span class="number">${lineNumber+1}</span>
-<span class="code">${rightLine}</span>
-</div>
-`;
+    charDiff.forEach(function (part) {
+        const kind = part[0];
+        const text = escapeHtml(part[1]);
+        if (kind === 0) { leftHtml += text; rightHtml += text; }
+        else if (kind === -1) { leftHtml += "<span class='remove'>" + text + "</span>"; }
+        else { rightHtml += "<span class='add'>" + text + "</span>"; }
+    });
 
-lineNumber++;
-
+    return [leftHtml, rightHtml];
 }
 
-/* FIX END */
+let k = 0;
+while (k < ops.length) {
+    const type = ops[k][0];
+
+    if (type === 0) {
+        const text = escapeHtml(ops[k][1]);
+        pushRow(text, text, false);
+        k++;
+        continue;
+    }
+
+    /* Collect the run of deletions, then the run of insertions that follows. */
+    const removed = [];
+    while (k < ops.length && ops[k][0] === -1) { removed.push(ops[k][1]); k++; }
+
+    const added = [];
+    while (k < ops.length && ops[k][0] === 1) { added.push(ops[k][1]); k++; }
+
+    const rows = Math.max(removed.length, added.length);
+
+    for (let r = 0; r < rows; r++) {
+        const hasOld = r < removed.length;
+        const hasNew = r < added.length;
+
+        if (hasOld && hasNew) {
+            const pair = modifiedPair(removed[r], added[r]);
+            pushRow(pair[0], pair[1], true);
+        } else if (hasOld) {
+            pushRow(
+                "<span class='remove'>" + escapeHtml(removed[r]) + "</span>",
+                "<span class='add'>&nbsp;</span>",
+                true
+            );
+        } else {
+            pushRow(
+                "<span class='remove'>&nbsp;</span>",
+                "<span class='add'>" + escapeHtml(added[r]) + "</span>",
+                true
+            );
+        }
+    }
+}
+
+/* One write each, instead of += per line inside the loop. */
+leftBox.innerHTML = leftRows.join("");
+rightBox.innerHTML = rightRows.join("");
 
 document.getElementById("result").style.display="block";
 

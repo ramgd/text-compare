@@ -158,6 +158,8 @@
 </div>
 
 <div id="toast" class="toast"></div>
+@include('partials.tool-content')
+
 @endsection
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/email-validator.css') }}">

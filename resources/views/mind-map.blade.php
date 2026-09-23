@@ -994,4 +994,6 @@ function showToast(message, type) {
 console.log('Mind Map Generator loaded successfully!');
 </script>
 
+@include('partials.tool-content')
+
 @endsection

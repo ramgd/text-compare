@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="json-container">
 
     <!-- LEFT EDITOR -->
@@ -26,6 +28,8 @@
     </div>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

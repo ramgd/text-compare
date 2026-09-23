@@ -2,9 +2,11 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="qr-wrapper">
     <div class="qr-container">
-        <h1>Advanced QR Code Generator</h1>
+        <h2>Advanced QR Code Generator</h2>
 
         <div class="form-group">
             <label>Enter Text / URL</label>
@@ -80,6 +82,8 @@
         </div>
     </div>
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

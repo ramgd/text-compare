@@ -377,6 +377,25 @@ document.addEventListener('keydown', function(e) {
 // ==================== INITIALIZATION ====================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Load default sample
-    loadSample('readme');
+    /* A short welcome document rather than the README template. The README
+       template legitimately opens with a level-one heading, which the live
+       preview renders as a second <h1> on the page; starting one level down
+       keeps the page to a single structural h1. The README button still
+       loads the full template unchanged. */
+    var input = document.getElementById('markdownInput');
+    if (!input) return;
+
+    input.value = [
+        '## Welcome to the Markdown editor',
+        '',
+        'Type on the left and the formatted result appears on the right.',
+        '',
+        '- **Bold**, *italic* and `code`',
+        '- Lists, tables, quotes and links',
+        '- Use the toolbar if you would rather not remember the syntax',
+        '',
+        '> Pick a template below to start from something fuller.'
+    ].join('\n');
+
+    renderMarkdown();
 });

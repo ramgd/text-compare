@@ -485,6 +485,35 @@ font-weight:600;
 line-height:1.3;
 }
 
+/* Content pages are different from tool pages: a homepage hero, a directory
+   heading or a policy title is the page's main statement and can carry more
+   weight than a compact tool header. These win over the rule above on
+   specificity, so tool pages keep the smaller heading. */
+.hero .hero-title{
+font-size:clamp(23px,6.4vw,30px);
+font-weight:800;
+line-height:1.2;
+margin-bottom:12px;
+}
+
+.page-head h1,
+.legal h1{
+font-size:clamp(21px,5.6vw,26px);
+font-weight:700;
+line-height:1.25;
+}
+
+.legal h2,
+.tool-doc-block h2{
+font-size:clamp(17px,4.6vw,20px);
+font-weight:700;
+}
+
+.error-page h1{
+font-size:clamp(19px,5vw,23px);
+font-weight:700;
+}
+
 /* The strapline under each tool title */
 .container .subtitle{
 font-size:13px;

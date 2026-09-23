@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
+@section('title', 'Text Compare - Find the Differences Between Two Texts')
+@section('description', 'Compare two blocks of text side by side and highlight every line and word that changed. Runs entirely in your browser - nothing is uploaded.')
+
 @section('content')
+
+<div class="page-head">
+    <h1>Text Compare</h1>
+    <p class="page-lead">
+        Paste two versions of the same text to see exactly what changed between them.
+        The comparison runs in your browser, so nothing you paste is uploaded.
+    </p>
+</div>
 
 <div class="boxes">
 
@@ -40,6 +51,8 @@
 </div>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 
