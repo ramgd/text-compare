@@ -128,6 +128,8 @@
 
 <!-- Toast moved outside wrapper for global visibility -->
 <div id="toast" class="toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

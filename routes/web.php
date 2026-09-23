@@ -19,10 +19,43 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\CompareController;
+use App\Http\Controllers\DocumentConvertController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\SiteController;
 
-Route::get('/', [CompareController::class,'index']);
-Route::post('/compare',[CompareController::class,'compare'])->name('compare');
+/*
+|--------------------------------------------------------------------------
+| Public site
+|--------------------------------------------------------------------------
+|
+| The homepage is the tool directory, not a single tool: a visitor landing on
+| the root should see what the site is and what it offers. The text compare
+| tool now lives at its own URL so it can rank and be linked on its own.
+|
+*/
+
+Route::get('/', [SiteController::class, 'home'])->name('home');
+Route::get('/tools', [SiteController::class, 'tools'])->name('tools');
+Route::get('/tools/{slug}', [SiteController::class, 'category'])->name('tools.category');
+
+// Trust / legal pages
+Route::get('/about', [SiteController::class, 'about'])->name('about');
+Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
+Route::get('/privacy-policy', [SiteController::class, 'privacy'])->name('privacy');
+Route::get('/terms-of-service', [SiteController::class, 'terms'])->name('terms');
+Route::get('/cookie-policy', [SiteController::class, 'cookies'])->name('cookies');
+Route::get('/disclaimer', [SiteController::class, 'disclaimer'])->name('disclaimer');
+
+// Machine-readable files. robots.txt and ads.txt are generated so the host
+// always matches the configured production domain.
+Route::get('/sitemap.xml', [SiteController::class, 'sitemap'])->name('sitemap');
+Route::get('/robots.txt', [SiteController::class, 'robots'])->name('robots');
+Route::get('/ads.txt', [SiteController::class, 'adsTxt'])->name('ads');
+
+// The compare tool moved off "/" - keep the old dashboard URL working.
+Route::get('/text-compare', [CompareController::class, 'index'])->name('text-compare');
+Route::permanentRedirect('/dashboard', '/');
+Route::permanentRedirect('/compare', '/text-compare');
 
 Route::get('/json_formatter', function () {
     return view('json_formatter');
@@ -36,10 +69,6 @@ Route::get('/password-generator', function () {
 
 Route::get('/sql_minifier', function () {
     return view('sql_minifier');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard'); // 👈 DASHBOARD
 });
 
 Route::get('/code-beautifier', function () {
@@ -109,6 +138,11 @@ Route::get('/mind-map', function () {
     return view('mind-map');
 })->name('mind-map');
 
+// Word -> PDF runs server-side (PhpWord + Dompdf); the rest of the PDF
+// toolkit is handled in the browser.
+Route::post('/pdf-toolkit/word-to-pdf', [DocumentConvertController::class, 'wordToPdf'])
+    ->name('pdf-toolkit.word-to-pdf');
+
 Route::get('/pdf-toolkit', function () {
     return view('pdf-toolkit');
 })->name('pdf-toolkit');
@@ -129,12 +163,13 @@ Route::get('/highway-racer', function () {
     return view('highway-racer');
 })->name('highway-racer');
 
-// Route::get('/speed-test', function () {
-//     return view('speed-test');
-// })->name('speed-test');
-// Route::get('/speed-checker', function () {
-//     return view('speed-checker');
-// })->name('speed-checker');
+Route::get('/speed-test', function () {
+    return view('speed-test');
+})->name('speed-test');
+
+Route::get('/speed-checker', function () {
+    return view('speed-checker');
+})->name('speed-checker');
 
 // NOTE: the Bubble Shooter route was removed - it pointed at
 // resources/views/bubble-shooter.blade.php, which has never existed in this

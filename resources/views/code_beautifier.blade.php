@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="beautifier-container">
 
     <!-- INPUT -->
@@ -34,6 +36,8 @@
     </div>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

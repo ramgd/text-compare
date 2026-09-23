@@ -971,4 +971,6 @@ function closeModal() {
 }
 </script>
 
+@include('partials.tool-content')
+
 @endsection

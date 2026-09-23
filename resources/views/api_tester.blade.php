@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="api-container">
 
     <!-- TOP BAR -->
@@ -61,6 +63,8 @@
     </div>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

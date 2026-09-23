@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+@include('partials.tool-header')
 <div class="pg-container">
 
     <h2>🔐 Password Generator</h2>
@@ -29,6 +31,8 @@
     <button class="generate" onclick="generatePassword()">Generate Password</button>
 
 </div>
+
+@include('partials.tool-content')
 
 @endsection
 

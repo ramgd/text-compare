@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+@include('partials.tool-header')
 <div class="text-to-image-wrapper">
     <div class="tti-container">
         <div class="tti-left">
@@ -118,6 +120,8 @@
 </div>
 
 <div id="toast" class="toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

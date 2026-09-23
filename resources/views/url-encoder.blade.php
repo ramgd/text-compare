@@ -108,6 +108,8 @@
 </div>
 
 <div id="toast" class="toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

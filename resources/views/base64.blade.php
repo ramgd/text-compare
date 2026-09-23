@@ -85,7 +85,8 @@
                         <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
                     </div>
                     <div id="imagePreview" style="display:none;">
-                        <img id="previewImage" alt="Preview" style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+                        <img id="previewImage" alt="" hidden src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                             style="max-width: 100%; max-height: 300px; border-radius: 8px;">
                     </div>
                     <div class="button-group">
                         <button onclick="encodeImage()" class="btn-encode">🔒 Encode to Base64</button>
@@ -106,6 +107,8 @@
 </div>
 
 <div id="toast" class="toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

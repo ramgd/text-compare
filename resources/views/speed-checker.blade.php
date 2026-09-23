@@ -159,6 +159,8 @@
 
 <!-- Toast -->
 <div id="scToast" class="sc-toast"></div>
+@include('partials.tool-content')
+
 @endsection
 
 @push('styles')

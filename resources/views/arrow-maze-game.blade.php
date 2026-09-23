@@ -553,7 +553,7 @@
         <!-- Header -->
         <div class="game-arrow-header">
             <div class="game-arrow-title">
-                <h2>🎯 Arrow Maze</h2>
+                <h1>🎯 Arrow Maze</h1>
                 <span class="game-arrow-level" id="levelDisplay">Level 1</span>
             </div>
             <div class="game-arrow-stats">
@@ -1401,4 +1401,6 @@
 </script>
 </body>
 </html>
+@include('partials.tool-content')
+
 @endsection

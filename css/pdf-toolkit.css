@@ -215,6 +215,73 @@
     padding: 0 5px;
 }
 
+/* ---- Merge list: ordering ------------------------------------------- */
+
+/* The list order is the page order of the merged PDF, so each row shows its
+   position and can be moved. */
+.file-list {
+    max-height: 260px;
+}
+
+.file-item .file-order {
+    flex: 0 0 auto;
+    min-width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.file-item .file-name {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Long or duplicate filenames must not push the controls off-screen. */
+.file-item .file-name span,
+.file-item .file-name {
+    overflow-wrap: anywhere;
+}
+
+.file-item .file-actions {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.file-item .file-move {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+}
+
+.file-item .file-move:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--primary);
+}
+
+.file-item .file-move:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.file-item .file-move:focus-visible,
+.file-item .file-remove:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+}
+
 /* Options */
 .split-options, .compress-options, .convert-options, .protect-options {
     margin-top: 12px;
@@ -548,4 +615,45 @@
     color: var(--text-light);
     font-size: 12px;
     margin-top: 4px;
+}
+/* ---- Merge list on small screens ------------------------------------
+   The row carries a position badge, a filename, a size and three controls.
+   Below ~560px that does not fit on one line at a comfortable tap size, so
+   the row wraps: name on top, size and controls beneath. */
+@media (max-width: 560px) {
+
+    .file-item {
+        flex-wrap: wrap;
+        row-gap: 6px;
+        padding: 10px 12px;
+    }
+
+    .file-item .file-name {
+        flex: 1 1 calc(100% - 30px);
+        order: 1;
+    }
+
+    .file-item .file-order {
+        order: 0;
+        margin-right: 8px;
+    }
+
+    .file-item .file-size {
+        order: 2;
+        flex: 1 1 auto;
+    }
+
+    .file-item .file-actions {
+        order: 3;
+        margin-left: auto;
+        gap: 4px;
+    }
+
+    /* responsive.css already lifts buttons to 40px min-height on touch;
+       match the width so the arrows stay square and easy to hit. */
+    .file-item .file-move,
+    .file-item .file-remove {
+        min-width: 40px;
+        justify-content: center;
+    }
 }
